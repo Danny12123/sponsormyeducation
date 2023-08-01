@@ -1,0 +1,21 @@
+html,
+body,
+#root,
+.app {
+  height: 100%;
+  width: 100%;
+  font-family: "DM Sans", sans-serif;
+}
+
+.image{
+  background-image: url("https://media.istockphoto.com/id/1223582779/photo/poor-indian-children-asking-for-food-india.jpg?s=1024x1024&w=is&k=20&c=DxZHVRHHDT5UzB3RUR6uDQOBlIA-ylNOGKdlEJaWZzs=");
+}
+
+.nav-link{
+  color: white !important;
+}
+
+.link-footer{
+  color: white;
+}
+
