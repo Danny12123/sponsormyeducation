@@ -17,7 +17,7 @@ const dispatch = useDispatch()
         <div className="row">
           {/* <div className=""></div> */}
           { newDate.map((item, index) => {
-            if (item) {
+            if (item && item.length > 0) {
 
               return (
                 <div className="col-md-4" key={ index }>

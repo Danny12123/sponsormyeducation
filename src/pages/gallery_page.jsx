@@ -1,5 +1,5 @@
-import Nav from "../navbar/navbar"
-import Navbar from "../navbar"
+import Navigation from "../navbar/Navigation"
+
 import JumbotronBackground from "../sections/jumbotron"
 import Gallery from "../sections/gallery"
 import Footer from "../footer"
@@ -8,8 +8,7 @@ import Footer from "../footer"
 function GalleryPage() {
   return (
     <div>
-        <Navbar />
-        <Nav />
+        <Navigation />
         <JumbotronBackground />
         <Gallery/>
         <Footer />

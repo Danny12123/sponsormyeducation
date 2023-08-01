@@ -1,5 +1,4 @@
-import Nav from "../navbar/navbar"
-import Navbar from "../navbar"
+import Navigation from "../navbar/Navigation"
 import JumbotronBackground from "../sections/jumbotron"
 import PopularContent from "../sections/popular_page_content"
 import Footer from "../footer"
@@ -8,8 +7,8 @@ import Footer from "../footer"
 function PopularPage() {
   return (
     <div>
-        <Navbar />
-        <Nav />
+      
+        <Navigation />
         <JumbotronBackground />
         <PopularContent />
         <Footer />

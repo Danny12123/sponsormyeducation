@@ -1,5 +1,5 @@
-import Nav from "../navbar/navbar"
-import Navbar from "../navbar"
+
+import Navigation from "../navbar/Navigation"
 import Donation from "../reusable-components/donation"
 import FeaturedCampaign from "../sections/featured_campaign"
 import Footer from "../footer"
@@ -8,8 +8,7 @@ import Footer from "../footer"
 function DonationPage() {
   return (
     <div>
-       <Navbar />
-        <Nav />
+       <Navigation />
         <Donation />
         <FeaturedCampaign />
         <Footer/>

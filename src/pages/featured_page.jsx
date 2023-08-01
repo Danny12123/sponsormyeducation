@@ -1,5 +1,5 @@
-import Navbar from '../navbar'
-import Nav from '../navbar/navbar'
+
+import Navigation from '../navbar/Navigation'
 import JumbotronBackground from '../sections/jumbotron'
 import Footer from '../footer'
 import FeaturedCampaign from '../sections/featured_campaign'
@@ -8,8 +8,7 @@ import FeaturedCampaign from '../sections/featured_campaign'
 function FeaturedPage() {
   return (
     <div>
-        <Navbar/>
-        <Nav />
+        <Navigation/>
         <JumbotronBackground />
         <FeaturedCampaign />
         <Footer />

@@ -30,6 +30,9 @@ export const counterSlice = createSlice({
     reviewCampaign: (state, action) => {
       state.review = action.payload
     },
+    logoutUser: (state) => {
+      state.user = null;
+    },
   },
 });
 
@@ -41,4 +44,4 @@ const rootReducer = combineReducers({
 
 export  const  persistedReducer = persistReducer(persistConfig, rootReducer);
 //export default rootReducer;
-export const { addCampaign,setUser,reviewCampaign } = counterSlice.actions;
+export const { addCampaign,setUser,reviewCampaign,logoutUser } = counterSlice.actions;

@@ -1,7 +1,7 @@
 
 import LoginPage from "./pages/login_page";
 import HowItWorks from "./pages/how_it_works";
-import LatestCampaign from "./pages/latest_page";
+//import LatestCampaign from "./pages/latest_page";
 import FeaturedPage from "./pages/featured_page"; 
 import PopularPage from "./pages/popular_page";
 import GalleryPage from "./pages/gallery_page";
@@ -58,7 +58,7 @@ function App() {
       <Route path="/" element={ <HomePage newDate={ newDate } />}/> 
      <Route path="/login" element={<LoginPage />}/> 
      <Route path="/howitworks" element={<HowItWorks />}/> 
-     <Route path="/latest" element={<LatestCampaign />}/> 
+     {/* <Route path="/latest" element={<LatestCampaign />}/>  */}
      <Route path="/featured" element={<FeaturedPage />}/> 
      <Route path="/popular" element={<PopularPage />}/> 
      <Route path="/gallery" element={<GalleryPage />}/> 

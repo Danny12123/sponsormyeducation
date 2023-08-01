@@ -1,32 +1,47 @@
 import { Carousel } from "react-bootstrap";
+import { useState, useEffect } from "react";
 
 const CarouselComponent = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
   return (
     <Carousel>
       <Carousel.Item>
         <img
           className="d-block img-fluid w-100 "
-          src="https://media.istockphoto.com/id/636860704/photo/group-of-happy-african-children-east-africa.jpg?s=1024x1024&w=is&k=20&c=TQ_jyi5MsQeLXyuQNXZV2EyeuhWIbfeg3tAHuK-98TM="
+          src="https://images.pexels.com/photos/11025019/pexels-photo-11025019.jpeg?auto=compress&cs=tinysrgb&w=600"
           alt="happy kids"
         />
-        <div className="carousel-caption d-none d-md-block">
-          <h5>First slide label</h5>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+        <div className="carousel-caption d-none d-md-block " style={{marginBottom: "10em"}}>
+          <h1 className= {`fade-in ${isVisible ? "visible" : ""}`}>Educating the Future</h1>
+          <h5 className= {`fade-in ${isVisible ? "visible" : ""}`}>With A Small Contribution You Can Help Educate Thousands of Children</h5>
         </div>
       </Carousel.Item>
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src="https://media.istockphoto.com/id/474251868/photo/african-black-child-drinking-fresh-water-from-tap.jpg?s=1024x1024&w=is&k=20&c=VBE3pYzkkeVuYl2DmacOzzyT6uRCyqq9A8FnLRdMAbE="
+          src="https://images.pexels.com/photos/14554004/pexels-photo-14554004.jpeg?auto=compress&cs=tinysrgb&w=600"
           alt="Children drinking water"
         />
+         <div className="carousel-caption d-none d-md-block" style={{marginBottom: "10em"}}>
+          <h1 className= {`fade-in ${isVisible ? "visible" : ""}`}>Little Help For Big Cause</h1>
+          <h5 className= {`fade-in ${isVisible ? "visible" : ""}`}>With A Small Contribution You Can Help Educate Thousands of Children</h5>
+        </div>
       </Carousel.Item>
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src="https://media.istockphoto.com/id/1353379172/photo/cute-little-african-american-girl-looking-at-camera.jpg?s=1024x1024&w=is&k=20&c=umFtOYrvwG4HIDCAskJ5U-2ncPlSoNXETjog2YbpC10="
+          src="https://images.pexels.com/photos/11139373/pexels-photo-11139373.jpeg?auto=compress&cs=tinysrgb&w=600"
           alt="Girl looking at camera"
         />
+         <div className="carousel-caption d-none d-md-block" style={{marginBottom: "10em"}}>
+          <h1 className= {`fade-in ${isVisible ? "visible" : ""}`}>Sponser My Campaign</h1>
+          <h5 className= {`fade-in ${isVisible ? "visible" : ""}`}>With A Small Contribution You Can Help Educate Thousands of Children</h5>
+        </div>
       </Carousel.Item>
     </Carousel>
   );

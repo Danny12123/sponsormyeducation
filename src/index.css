@@ -7,8 +7,48 @@ body,
   font-family: "DM Sans", sans-serif;
 }
 
+
+/* Custom CSS to reduce the height of the Carousel */
+.carousel {
+  max-height: 500px; /* Adjust the height as per your requirement */
+}
+
+.carousel-inner {
+  max-height: 500px; /* Adjust the height as per your requirement */
+}
+
+.carousel-item {
+  height: 100%;
+}
+
+.carousel-item img {
+  object-fit: cover;
+  max-height: 500px; /* Adjust the height as per your requirement */
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 1s ease-in-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+}
+
+
 .image{
-  background-image: url("https://media.istockphoto.com/id/1223582779/photo/poor-indian-children-asking-for-food-india.jpg?s=1024x1024&w=is&k=20&c=DxZHVRHHDT5UzB3RUR6uDQOBlIA-ylNOGKdlEJaWZzs=");
+  background-image: url("https://images.pexels.com/photos/8948347/pexels-photo-8948347.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+  
 }
 
 .nav-link{
