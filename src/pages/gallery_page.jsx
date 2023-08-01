@@ -1,4 +1,4 @@
-import Nav from "../navbar/navbar"
+import Nav from "../navbar/Navigation"
 import Navbar from "../navbar"
 import JumbotronBackground from "../sections/jumbotron"
 import Gallery from "../sections/gallery"

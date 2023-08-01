@@ -1,5 +1,5 @@
  //import Navbar from "../navbar"
- import Nav from "../navbar/navbar"
+ import Nav from "../navbar/Navigation"
  import Carousel from "../navbar/carousel"
  //import SectionHead from "../reusable-components/section_head";
  //import OwlCarousel from "../sections/owl_carousel";

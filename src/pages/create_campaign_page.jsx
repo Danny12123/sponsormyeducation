@@ -1,5 +1,5 @@
-import Nav from "../navbar/navbar"
-import Navbar from "../navbar"
+import Nav from "../navbar/Navigation"
+import Navigation from "../navbar"
 import JumbotronBackground from "../sections/jumbotron"
 import RegisterForm from "../reusable-components/register_form"
 import Footer from "../footer"
@@ -7,7 +7,7 @@ import Footer from "../footer"
 function CreateCampaign() {
   return (
     <>
-        <Navbar />
+      <Navigation />
         <Nav />
         <JumbotronBackground />
         <RegisterForm/>

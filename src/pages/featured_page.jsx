@@ -1,5 +1,5 @@
 import Navbar from '../navbar'
-import Nav from '../navbar/navbar'
+import Nav from '../navbar/Navigation'
 import JumbotronBackground from '../sections/jumbotron'
 import Footer from '../footer'
 import FeaturedCampaign from '../sections/featured_campaign'

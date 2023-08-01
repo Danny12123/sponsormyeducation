@@ -1,4 +1,4 @@
-import Nav from "../navbar/navbar"
+import Nav from "../navbar/Navigation"
 import Navbar from "../navbar"
 import Donation from "../reusable-components/donation"
 import FeaturedCampaign from "../sections/featured_campaign"

@@ -1,7 +1,13 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
-function Navbar() {
+function Navigation() {
   const [isOpen, setIsOPen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -13,15 +19,49 @@ function Navbar() {
      setDropdownOpen((prevState) => !prevState);
    };
 
-  const menuClass = `dropdown-menu dropdown-menu-macos dd-menu${
-    isOpen ? " show" : ""
-  }`;
-
-  const mobileMenu = `dropdown${dropdownOpen ? " show" : ""}`
+  
 
   return (
     <header>
-      <nav className="navbar navbar-expand-lg navbar-inverse fixed-top py-3  shadow-sm bg-dark ">
+      <Navbar expand="lg" className="bg-body-tertiary">
+        <Container fluid>
+          <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
+          <Navbar.Toggle aria-controls="navbarScroll" />
+          <Navbar.Collapse id="navbarScroll">
+            <Nav
+              className="me-auto my-2 my-lg-0"
+              style={ { maxHeight: '100px' } }
+              navbarScroll
+            >
+              <Nav.Link href="#action1">Home</Nav.Link>
+              <Nav.Link href="#action2">Link</Nav.Link>
+              <NavDropdown title="Link" id="navbarScrollingDropdown">
+                <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
+                <NavDropdown.Item href="#action4">
+                  Another action
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="#action5">
+                  Something else here
+                </NavDropdown.Item>
+              </NavDropdown>
+              <Nav.Link href="#" disabled>
+                Link
+              </Nav.Link>
+            </Nav>
+            <Form className="d-flex">
+              <Form.Control
+                type="search"
+                placeholder="Search"
+                className="me-2"
+                aria-label="Search"
+              />
+              <Button variant="outline-success">Search</Button>
+            </Form>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+      {/* <nav className="navbar navbar-expand-lg navbar-inverse fixed-top py-3  shadow-sm bg-dark ">
         <div className="container d-flex fw-bold">
           <Link className="navbar-brand" to="/">
             <img
@@ -42,11 +82,9 @@ function Navbar() {
             <button
               className="navbar-toggler text-white"
               type="button"
-              // data-bs-toggle="collapse"
-              //data-bs-target="#navbarCollapse"
-              //aria-controls="navbarCollapse"
+              
               aria-expanded="false"
-              // aria-label="Toggle navigation"
+             
               data-bs-toggle="dropdown"
               onClick={toggleDropdown}
             >
@@ -56,10 +94,7 @@ function Navbar() {
               <Link className="dropdown-item" to="/homepage">
                 Home
               </Link>
-              {/* <a className="dropdown-item" href="#">
-                About
-              </a> */}
-              {/* Add more dropdown items as needed */}
+              
             </div>
           </div>
           <div className="collapse navbar-collapse" id="navbarCollapse">
@@ -104,12 +139,7 @@ function Navbar() {
                   <Link className="dropdown-item " to="/popular">
                     Popular
                   </Link>
-                  {/* <a
-                    className="dropdown-item "
-                    href="https://fundmescript.com/campaigns/ended"
-                  >
-                    Ended
-                  </a> */}
+                  
                   <Link className="dropdown-item " to="/gallery">
                     Gallery
                   </Link>
@@ -208,9 +238,9 @@ function Navbar() {
             </ul>
           </div>
         </div>
-      </nav>
+      </nav> */}
     </header>
   );
 }
 
-export default Navbar;
+export default Navigation;

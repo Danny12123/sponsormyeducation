@@ -1,6 +1,6 @@
 
 import Navbar from '../navbar'
-import Nav from '../navbar/navbar'
+import Nav from '../navbar/Navigation'
 import JumbotronBackground from '../sections/jumbotron'
 import Content from '../reusable-components/content'
 import Footer from '../footer'
