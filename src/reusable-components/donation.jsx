@@ -44,6 +44,7 @@ function Donation() {
   return (
     <>
       {/* form */ }
+      <div style={{marginTop:"5em"}}>
       <Modal
         show={ show }
         onHide={ handleClose }
@@ -79,7 +80,7 @@ function Donation() {
           </Button>
         </Modal.Footer>
       </Modal>
-      <div className="container mb-5">
+      <div className="container mb-5 ">
         <div className="row">
           <div className="col-md-7 margin-bottom-20">
             <div className="text-center mb-2 position-relative">
@@ -135,7 +136,7 @@ function Donation() {
                           >
                             |
                           </span>
-                          <i className="fa fa-map-marker-alt mr-1"></i> Jordan
+                          {/* <i className="fa fa-map-marker-alt mr-1"></i> Jordan */}
                         </small>
                       </div>
                     </div>
@@ -195,6 +196,7 @@ function Donation() {
             </div>
           </div>
         </div>
+      </div>
       </div>
       {/* story */ }
       <div className="container pb-5">

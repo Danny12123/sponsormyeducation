@@ -20,8 +20,8 @@ const dispatch = useDispatch()
             if (item) {
 
               return (
-                <div className="col-md-4" key={ index }>
-                <div  className="card campaigns mb-3 shadow-sm">
+                <div className="col-md-4" key={ index } >
+                <div  className="card campaigns mb-3 shadow-sm fixed-height-card" >
                   <Link to="/donation" style={{TextDecoder: "none", color:"#000"}} onClick={() => {dispatch(reviewCampaign(item))}}>
                   <div className="p-relative">
                     <img className="card-img-top" src={item?.newImage} alt="Test" />
