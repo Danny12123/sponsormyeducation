@@ -1,9 +1,14 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+
+
 
 function Navbar() {
   const [isOpen, setIsOPen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const user = useSelector((state) => state.Campaign.user)
+  
 
   // explore button dropdown
   const toggleOPen = () => setIsOPen(!isOpen);
@@ -31,23 +36,10 @@ function Navbar() {
               alt="Fundme | Crowdfunding Platform"
             />
           </Link>
-          <ul className="navbar-nav ms-auto d-lg-none">
-            <li className="nav-item">
-              <a className="nav-link search" href="">
-                <i className="fa fa-search"></i>
-              </a>
-            </li>
-          </ul>
-          <div className={mobileMenu}>
+          <li className={mobileMenu}>
             <button
-              className="navbar-toggler text-white"
+              className="navbar-toggler text-white dropdown"
               type="button"
-              // data-bs-toggle="collapse"
-              //data-bs-target="#navbarCollapse"
-              //aria-controls="navbarCollapse"
-              aria-expanded="false"
-              // aria-label="Toggle navigation"
-              data-bs-toggle="dropdown"
               onClick={toggleDropdown}
             >
               <i className="fa fa-bars"></i>
@@ -56,19 +48,19 @@ function Navbar() {
               <Link className="dropdown-item" to="/homepage">
                 Home
               </Link>
-              {/* <a className="dropdown-item" href="#">
+               <Link className="dropdown-item" to="#">
                 About
-              </a> */}
+              </Link> 
               {/* Add more dropdown items as needed */}
             </div>
-          </div>
+          </li>
           <div className="collapse navbar-collapse" id="navbarCollapse">
             <div className="d-lg-none text-right">
               <Link
                 to=""
                 className="close-menu"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarCollapse"
+                data-toggle="collapse"
+                data-target="#navbarCollapse"
                 aria-controls="navbarCollapse"
                 aria-expanded="false"
               >
@@ -104,81 +96,13 @@ function Navbar() {
                   <Link className="dropdown-item " to="/popular">
                     Popular
                   </Link>
-                  {/* <a
-                    className="dropdown-item "
-                    href="https://fundmescript.com/campaigns/ended"
-                  >
-                    Ended
-                  </a> */}
                   <Link className="dropdown-item " to="/gallery">
                     Gallery
                   </Link>
                 </div>
               </li>
-              <li className="nav-item dropdown ">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  id="dropdownCategories"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Categories
-                </a>
-                <div
-                  className="dropdown-menu dropdown-menu-macos dd-menu"
-                  aria-labelledby="dropdownCategories"
-                >
-                  <a
-                    className="dropdown-item "
-                    href="https://fundmescript.com/category/Animals"
-                  >
-                    Animals
-                  </a>
-                  <a
-                    className="dropdown-item "
-                    href="https://fundmescript.com/category/Business"
-                  >
-                    Business
-                  </a>
-                  <a
-                    className="dropdown-item "
-                    href="https://fundmescript.com/category/Charity"
-                  >
-                    Charity
-                  </a>
-                  <a
-                    className="dropdown-item "
-                    href="https://fundmescript.com/category/Community"
-                  >
-                    Community
-                  </a>
-                  <a
-                    className="dropdown-item "
-                    href="https://fundmescript.com/category/Competitions"
-                  >
-                    Competitions
-                  </a>
-                  <a
-                    className="dropdown-item "
-                    href="https://fundmescript.com/category/covid-19"
-                  >
-                    COVID-19
-                  </a>
-
-                  <a
-                    className="dropdown-item"
-                    href="https://fundmescript.com/categories"
-                  >
-                    View all <i className="bi-arrow-right"></i>
-                  </a>
-                </div>
-              </li>
-              <li className="nav-item d-none d-lg-block">
-                <a className="nav-link search" href="">
-                  <i className="fa fa-search"></i>
-                </a>
-              </li>
+             
+             
             </ul>
 
             <ul className="navbar-nav ms-auto">
