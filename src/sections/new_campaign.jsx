@@ -24,7 +24,9 @@ const dispatch = useDispatch()
                 <div  className="card campaigns mb-3 shadow-sm fixed-height-card" >
                   <Link to="/donation" style={{TextDecoder: "none", color:"#000"}} onClick={() => {dispatch(reviewCampaign(item))}}>
                   <div className="p-relative">
-                    <img className="card-img-top" src={item?.newImage} alt="Test" />
+                    <img className="card-img-top fixed-height-image" 
+                    src={item?.newImage} 
+                    alt="Test" />
                   </div>
                   <div className="card-body">
                     <small className="btn-block mb-1">

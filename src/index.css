@@ -49,6 +49,10 @@ body,
   height:100px
 }
 
+.fixed-height-image{
+  height:200px
+}
+
 .image{
   background-image: url("https://images.pexels.com/photos/8948347/pexels-photo-8948347.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
   
