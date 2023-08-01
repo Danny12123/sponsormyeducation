@@ -25,7 +25,7 @@ function Navigation() {
 
   return (
     <header>
-      <Navbar expand="lg" className="bg-dark fixed-top">
+      <Navbar expand="lg" variant="dark" className="bg-dark fixed-top">
         <Container fluid>
           <Navbar.Brand href="/">
             <img
