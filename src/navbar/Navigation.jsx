@@ -45,18 +45,30 @@ function Navigation() {
               <Nav.Link href="/howitworks">How it works</Nav.Link>
 
               <NavDropdown title="Explore" id="navbarScrollingDropdown">
-                {/* <NavDropdown.Item href="/latest">Latest</NavDropdown.Item> */}
+                <NavDropdown.Item href="/latest">Latest</NavDropdown.Item> 
+
                 <NavDropdown.Item href="/featured">Featured</NavDropdown.Item>
 
                 <NavDropdown.Item href="/popular">Popular</NavDropdown.Item>
                 <NavDropdown.Item href="/gallery">Gallery</NavDropdown.Item>
+                <NavDropdown.Item href="/ended">Ended</NavDropdown.Item> 
               </NavDropdown>
+
+              <NavDropdown title="Categories" id="navbarScrollingDropdown">
+                <NavDropdown.Item href="/">Education</NavDropdown.Item> 
+
+                <NavDropdown.Item href="/health">Health</NavDropdown.Item>
+
+                <NavDropdown.Item href="/business">Business</NavDropdown.Item>
+                
+              </NavDropdown>
+              
             </Nav>
 
             <ul className="navbar-nav ms-auto">
               {!user ? (
                 <li className="nav-item me-1">
-                  <Link className="nav-link" to="/login">
+                  <Link className="nav-link btn btn-primary pr-3 pl-3 btn-create no-hover" to="/login">
                     Login
                   </Link>
                 </li>
@@ -71,7 +83,7 @@ function Navigation() {
                 </li>
               )}
 
-              {!user ? (
+              {/* {!user ? (
                 <li className="nav-item d-flex justify-start">
                   <Link
                     className="nav-link btn btn-primary btn-create no-hover"
@@ -82,18 +94,35 @@ function Navigation() {
                 </li>
               ) : (
                 ""
-              )}
+              )} */}
 
-              {user && (
-                <li className="nav-item">
+               
+                {/* <li className="nav-item">
                   <Link
                     className="nav-link btn btn-primary pr-3 pl-3 btn-create no-hover"
                     to="/campaignform"
                   >
                     Create Campaign
                   </Link>
-                </li>
-              )}
+                </li> */}
+                {user ? (
+            // If user is logged in, route to the campaign form
+            <Link
+              className="nav-link btn btn-primary pr-3 pl-3 btn-create no-hover"
+              to="/campaignform"
+            >
+              Create Campaign
+            </Link>
+          ) : (
+            // If user is not logged in, route to the login page (you can change the "/login" path to the appropriate login route)
+            <Link
+              className="nav-link btn btn-primary pr-3 pl-3 btn-create no-hover"
+              to="/register"
+            >
+              Create Campaign
+            </Link>
+          )}
+              
             </ul>
             <Form className="d-flex">
               {/* <Form.Control

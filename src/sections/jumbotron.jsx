@@ -12,7 +12,7 @@ const JumbotronBackground = () => {
           {user && (
             <Link
               className="btn btn-primary p-2 px-5 btn-lg "
-              to="/register"
+              to="/campaignform"
               role="button"
               style={{ marginBottom: "4em" }}
             >

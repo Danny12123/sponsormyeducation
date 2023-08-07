@@ -1,19 +1,17 @@
 import Navigation from "../navbar/Navigation"
 import JumbotronBackground from "../sections/jumbotron"
-import PopularContent from "../sections/popular_page_content"
+import Health from "../sections/health"
 import Footer from "../footer"
 
-
-function PopularPage({newDate}) {
+function HealthPage({newDate}) {
   return (
     <div>
-      
         <Navigation />
         <JumbotronBackground />
-        <PopularContent newDate={newDate}/>
+        <Health newDate={ newDate}/>
         <Footer />
     </div>
   )
 }
 
-export default PopularPage
+export default HealthPage

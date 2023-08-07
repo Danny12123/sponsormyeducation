@@ -1,37 +1,31 @@
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { reviewCampaign } from "../store/reducer";
-import { ExpiredCampaign } from "../store/reducer";
-import { useState } from "react";
+import { Link } from "react-router-dom";
 
-const NewCampaign = ({ newDate }) => {
-  
-  const dispatch = useDispatch();
-  //console.log(likes);
-  // const review = useSelector((state) => state.Campaign.review);
 
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const itemsPerPage = 9; 
 
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = newDate.slice(indexOfFirstItem, indexOfLastItem);
-  // console.log(currentItems)
 
- 
-  newDate.sort((a, b) => b.date - a.date);
+
+
+function Ended({newDate}) {
+    const dispatch = useDispatch()
+
+
+    
   return (
     <div className="section py-5">
       <div className="btn-block text-center mb-5">
-        <h1>Education Campaigns</h1>
+        <h1>Ended Campaigns</h1>
         {/* <p>Recent Campaigns</p> */}
       </div>
       <div className="container">
         <div className="row">
           {/* <div className=""></div> */}
+          
           {newDate.map((item, index) => {
-            if (item && item?.category == "Education") {
+            console.log(item.daysRemaining)
+
+            if (item && (item?.daysRemaining <= 0)) {
               return (
                 <div className="col-md-4" key={index}>
                   <div className="card campaigns mb-3 shadow-sm fixed-height-card">
@@ -52,12 +46,11 @@ const NewCampaign = ({ newDate }) => {
                       <div className="card-body">
                         <small className="btn-block mb-1">
                           <div className="text-muted">
-                            <i className="far fa-folder-open"></i>{" "}
-                            {item.category}
+                            <i className="far fa-folder-open"></i> {item.category}
                           </div>
                         </small>
                         <h5 className="card-title text-truncate">
-                          <div className="text-dark">{item.campaignName}</div>
+                          <div className="text-dark">Test</div>
                         </h5>
                         <div className="progress progress-xs mb-4">
                           <div
@@ -70,15 +63,15 @@ const NewCampaign = ({ newDate }) => {
                           {item?.description}
                         </p>
                         {/* <div className="d-flex justify-content-between align-items-center">
-                      <strong>$0</strong>
-                      <small className="font-weight-bold">0.00%</small>
-                    </div> */}
+                    <strong>$0</strong>
+                    <small className="font-weight-bold">0.00%</small>
+                  </div> */}
                         {/* <small className="text-muted">raised of $5,000</small> */}
                         <hr />
                         <div className="d-flex justify-content-between align-items-center">
                           <span className="text-truncate">
                             <img
-                              src={item.profile?.profileImageURL}
+                              src="https://fundmescript.com/public/avatar/default.jpg"
                               width="25"
                               height="25"
                               className="rounded-circle avatar-campaign"
@@ -101,24 +94,13 @@ const NewCampaign = ({ newDate }) => {
             } else {
               <div>
                 <h3>No campaign</h3>
-              </div>;
+              </div>
             }
           })}
         </div>
       </div>
-      {/* <div className="btn-block text-center py-3">
-        <a 
-        href="" 
-        className="btn btn-primary btn-main p-2 px-5 btn-lg rounded"
-        onClick={() => setCurrentPage(currentPage + 1)}>
-          View all{" "}
-          <small className="pl-1">
-            <i className="fa fa-long-arrow-alt-right"></i>
-          </small>
-        </a>
-      </div> */}
     </div>
-  );
-};
+  )
+}
 
-export default NewCampaign;
+export default Ended

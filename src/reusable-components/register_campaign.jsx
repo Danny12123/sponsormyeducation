@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useSelector } from "react-redux";
 //import { addCampaign} from '../store/reducer';
@@ -7,8 +7,12 @@ import { useNavigate } from "react-router-dom";
 import { db, storage } from "../firebase";
 import "firebase/firestore";
 import "firebase/storage";
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css";
+import "../datepicker.css"; 
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
+
 
 
 function CampaignForm() {
@@ -17,9 +21,15 @@ function CampaignForm() {
   const [amount, setAmount] = useState("");
   const [newImage, setNewImage] = useState("");
   const [urlImage, setUrlImage] = useState(null);
+  const [endDate, setEndDate] = useState(null);
   const [image, setImage] = useState(null);
   const navigate = useNavigate();
   const user = useSelector((state) => state.Campaign.user)
+  const [category, setCategory] = useState("")
+  //const review = useSelector((state) => state.Campaign.review)
+  const { likes } = useSelector((state) => state.Campaign);
+  const userProfile = useSelector((state) => state.Campaign.userProfile);
+  
 
 
 
@@ -30,8 +40,27 @@ function CampaignForm() {
     setImage(file);
     
   };
-  
 
+  function calculateDaysRemaining(endDate) {
+    // Get the current date and set the time to midnight (00:00:00)
+    const currentDate = new Date();
+    //console.log(currentDate);
+  
+    let endDateObject = new Date(endDate);
+    //console.log(endDateObject);
+  
+    const timeDifference = endDateObject - currentDate;
+    console.log();
+  
+    const daysRemaining = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+  
+    return daysRemaining;
+  }
+  
+  const daysRemaining = calculateDaysRemaining(endDate);
+
+
+  
   const handleCampaign = async (e) => {
     e.preventDefault();
 
@@ -51,9 +80,16 @@ function CampaignForm() {
           campaignName: campaignName,
           description: description,
           newImage: downloadURL, 
-          email: user,// Store the image download URL
+          amount:amount,
+          email: user,
           date: Date.now(),
-          id: uuidv4()
+          endDate:endDate,
+          daysRemaining:daysRemaining,
+          likes:0,
+          likesBy:[],
+          category:category,
+          profile:userProfile,
+          id: uuidv4(),
         };
 
         try {
@@ -62,7 +98,9 @@ function CampaignForm() {
           // Optionally, reset the form fields after successful submission
           setCampaignName('');
           setDescription('');
-          setImage(null);
+          setImage(null)
+          setAmount(null);
+          setEndDate(null)
           navigate("/")
         } catch (error) {
           console.error("Error sending data to Firestore:", error);
@@ -71,6 +109,8 @@ function CampaignForm() {
       }
     );
   };
+
+  
 
 
   return (
@@ -126,7 +166,7 @@ function CampaignForm() {
               />
             </div>
 
-            <div className="form-outline mb-4">
+            <div className="form-outline mb-4 ">
               <label className="form-label" htmlFor="amount">
                 Amount
               </label>
@@ -135,11 +175,42 @@ function CampaignForm() {
                 id="amount"
                 className="form-control form-control-lg"
                 value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+              />
+            </div>
+
+            <div className="form-outline mb-4">
+              <label className="form-label" htmlFor="endDate">
+                End Date
+              </label>
+              <input
+                type="date"
+                id="endDate"
+                className="form-control form-control-lg"
+                value={endDate}
                 onChange={(e) => {
-                  setAmount(e.target.value);
+                  setEndDate(e.target.value);
                 }}
               />
             </div>
+            <div className="form-outline mb-4">
+          <label className="form-label" htmlFor="category">
+            Category
+          </label>
+          <select
+            id="category"
+            className="form-control form-control-lg"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+          >
+            <option value="">Select a category</option>
+            <option value="Education">Education</option>
+            <option value="Health">Health</option>
+            <option value="Business">Business</option>
+            {/* Add more options as needed */}
+          </select>
+
+              </div>
 
             <div className="pt-1 mb-4">
               <button

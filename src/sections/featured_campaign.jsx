@@ -31,7 +31,7 @@ export default function featured_campaign() {
                     href=""
                     className="text-muted"
                   >
-                    <i className="far fa-folder-open"></i> Charity
+                    <i className="far fa-folder-open"></i> Education
                   </a>
                 </small>
                 <h5 className="card-title text-truncate">
@@ -39,7 +39,7 @@ export default function featured_campaign() {
                     href=""
                     className="text-dark"
                   >
-                    Charity Vimeo
+                    Pay my fees
                   </a>
                 </h5>
                 <div className="progress progress-xs mb-4">
@@ -100,7 +100,7 @@ export default function featured_campaign() {
                     href=""
                     className="text-muted"
                   >
-                    <i className="far fa-folder-open"></i> Charity
+                    <i className="far fa-folder-open"></i> Business
                   </a>
                 </small>
                 <h5 className="card-title text-truncate">
@@ -108,7 +108,7 @@ export default function featured_campaign() {
                     href=""
                     className="text-dark"
                   >
-                    Community help
+                    Help My Business Grow
                   </a>
                 </h5>
                 <div className="progress progress-xs mb-4">
@@ -169,7 +169,7 @@ export default function featured_campaign() {
                     href=""
                     className="text-muted"
                   >
-                    <i className="far fa-folder-open"></i> Animals
+                    <i className="far fa-folder-open"></i> Health
                   </a>
                 </small>
                 <h5 className="card-title text-truncate">
@@ -177,14 +177,14 @@ export default function featured_campaign() {
                     href=""
                     className="text-dark"
                   >
-                    Save the Giraffe
+                    Save my life
                   </a>
                 </h5>
                 <div className="progress progress-xs mb-4">
                   <div
                     className="progress-bar bg-success"
                     role="progressbar"
-                style={{width: "1399.41%"}}
+                style={{width: "70.41%"}}
                   ></div>
                 </div>
                 <p className="card-text text-truncate">

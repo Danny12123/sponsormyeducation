@@ -1,5 +1,6 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
+import {Link}  from "react-router-dom"
 import { useDispatch } from "react-redux";
 import { setUser } from "../store/reducer";
 import { useState } from "react";
@@ -82,7 +83,7 @@ function LoginForm() {
 
             <div className="text-center">
               <p>
-                Not a member? <a href="#!">Register</a>
+                Not a member? <Link to="/register">Register</Link>
               </p>
             </div>
           </form>

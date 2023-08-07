@@ -1,16 +1,47 @@
-import { useSelector } from 'react-redux'
-import { format } from 'timeago.js';
-import { usePaystackPayment } from 'react-paystack';
-import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
+import { useSelector, useDispatch } from "react-redux";
+import "firebase/firestore";
+import { format } from "timeago.js";
+import { usePaystackPayment } from "react-paystack";
+import { useEffect, useState } from "react";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
 import PaystackPop from "@paystack/inline-js";
+import { toggleLike } from "../store/reducer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
+import { auth, db, storage } from "../firebase";
 
+import {
+  collection,
+  doc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+  increment,
+} from "firebase/firestore";
+import {
+  faFacebook,
+  faTwitter,
+  faInstagram,
+  faLinkedin,
+  faPinterest,
+  faYoutube,
+} from "@fortawesome/free-brands-svg-icons";
 
 function Donation() {
   const review = useSelector((state) => state.Campaign.review);
-  const user = useSelector((state) => state.Campaign.user);
+  const user = useSelector((state) => state.Campaign.userProfile);
+  const [likesCount, setLikesCount] = useState(review.likes || 0);
+  const [liked, setLiked] = useState(false);
+
+  //const { likes, liked } = useSelector((state) => state.Campaign);
+
+  const [showShareModal, setShowShareModal] = useState(false);
+
+  const handleCloseShareModal = () => setShowShareModal(false);
+  const handleShowShareModal = () => setShowShareModal(true);
+
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [amount, setAmount] = useState("");
@@ -18,6 +49,41 @@ function Donation() {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Check if the current user has already liked the campaign
+    if (user) {
+      const likedByCurrentUser = review.likesBy?.includes(user.id);
+      setLiked(likedByCurrentUser);
+    }
+  }, [user, review.likesBy]);
+
+  const handleLike = () => {
+    if (!user) {
+      // If the user is not logged in, prompt them to login or register
+      // Implement the authentication logic or use a library like Firebase Authentication
+      return;
+    }
+    const campaignRef = doc(collection(db, "Campaign"), review.id);
+
+    if (liked) {
+      // If the user has already liked the campaign, remove their like
+      updateDoc(campaignRef, {
+        likesBy: arrayRemove(user.id),
+        likes: increment(-1),
+      });
+      setLikesCount((prevCount) => prevCount - 1);
+    } else {
+      // If the user has not liked the campaign, add their like
+      updateDoc(campaignRef, {
+        likesBy: arrayUnion(user.id),
+        likes: increment(1),
+      });
+      setLikesCount((prevCount) => prevCount + 1);
+    }
+    setLiked((prevLiked) => !prevLiked);
+  };
 
   const handlePay = async (event) => {
     event.preventDefault();
@@ -43,162 +109,303 @@ function Donation() {
 
   return (
     <>
-      {/* form */ }
-      <div style={{marginTop:"5em"}}>
-      <Modal
-        show={ show }
-        onHide={ handleClose }
-        backdrop="static"
-        keyboard={ false }
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Donate</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" value={ email }
-                onChange={ (e) => setEmail(e.target.value) } placeholder="name@example.com" />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Phone number</Form.Label>
-              <Form.Control type="number" value={ phone }
-                onChange={ (e) => setPhone(e.target.value) } placeholder="000 000 000" />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>Amount</Form.Label>
-              <Form.Control type="number" value={amount }
-                onChange={ (e) => setAmount(e.target.value) } placeholder="10" />
-            </Form.Group>
-
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={ handlePay }>
-            Donate
-          </Button>
-        </Modal.Footer>
-      </Modal>
-      <div className="container mb-5 ">
-        <div className="row">
-          <div className="col-md-7 margin-bottom-20">
-            <div className="text-center mb-2 position-relative">
-              <img
-                className="img-fluid rounded-lg"
-                style={ { display: "inline-block" } }
-                src={ review?.newImage }
-              />
-            </div>
-          </div>
-          <div className="col-md-5">
-            <small className="btn-block mb-1">
-              <a
-                href=""
-                className="text-muted"
+      {/* form */}
+      <div style={{ marginTop: "5em" }}>
+        <Modal
+          show={show}
+          onHide={handleClose}
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Donate</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
               >
-                <i className="far fa-folder-open"></i>
-                Family
-              </a>
-            </small>
-            <h2 className="mb-2 mt-4 font-weight-bold text-break text-dark">
-              { review?.campaignName }
-            </h2>
-            <div className="panel panel-default panel-transparent mb-4">
-              <div className="panel-body">
-                { " " }
-                <div className="media none-overflow">
-                  <div className="d-flex my-2 align-items-center pl-">
-                    <img
-                      className="rounded-circle mr-2"
-                      src="https://fundmescript.com/public/avatar/default.jpg"
-                      width="60"
-                      height="60"
-                    />
+                <Form.Label>Email address</Form.Label>
+                <Form.Control
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="name@example.com"
+                />
+              </Form.Group>
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label>Phone number</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="000 000 000"
+                />
+              </Form.Group>
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlInput1"
+              >
+                <Form.Label>Amount</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  placeholder="10"
+                />
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handlePay}>
+              Donate
+            </Button>
+          </Modal.Footer>
+        </Modal>
+        <div className="container mb-5 ">
+          <div className="row">
+            <div className="col-md-7 margin-bottom-20">
+              <div className="text-center mb-2 position-relative">
+                <img
+                  className="img-fluid rounded-lg"
+                  style={{ display: "inline-block" }}
+                  src={review?.newImage}
+                />
+              </div>
+            </div>
+            <div className="col-md-5">
+              <small className="btn-block mb-1">
+                <a href="" className="text-muted">
+                  <i className="far fa-folder-open"></i>
+                  {review.category}
+                </a>
+              </small>
+              <h2 className="mb-2 mt-4 font-weight-bold text-break text-dark">
+                {review?.campaignName}
+              </h2>
+              <div className="panel panel-default panel-transparent mb-4">
+                <div className="panel-body">
+                  {" "}
+                  <div className="media none-overflow">
+                    <Link to="/profile">
+                      <div className="d-flex my-2 align-items-center pl-">
+                        <img
+                          className="rounded-circle mr-2"
+                          src={review.profile?.profileImageURL}
+                          width="60"
+                          height="60"
+                        />
 
-                    <div className="d-block px-3">
-                      by <strong className="text-dark">{ review?.email }</strong>
-                      <a
-                        href="#"
-                        title="Contact the Organizer"
-                        className="text-muted"
-                        data-bs-toggle="modal"
-                        data-bs-target="#sendEmail"
-                      >
-                        <i className="fa fa-envelope px-1" style={ { fontSize: "0.90em" } }></i>
-                      </a>
-                      <div className="d-block">
-                        <small className="media-heading text-muted btn-block margin-zero">
-                          { format(review?.date) }
-                          <span
-                            className="align-middle mx-1"
-                            style={ { fontSize: "8px" } }
+                        <div className="d-block px-3">
+                          by{" "}
+                          <strong className="text-dark">{review?.email}</strong>
+                          <a
+                            href="#"
+                            title="Contact the Organizer"
+                            className="text-muted"
+                            data-bs-toggle="modal"
+                            data-bs-target="#sendEmail"
                           >
-                            |
-                          </span>
-                          {/* <i className="fa fa-map-marker-alt mr-1"></i> Jordan */}
-                        </small>
+                            <i
+                              className="fa fa-envelope px-1"
+                              style={{ fontSize: "0.90em" }}
+                            ></i>
+                          </a>
+                          <div className="d-block">
+                            <small className="media-heading text-muted btn-block margin-zero">
+                              {format(review?.date)}
+                              <span
+                                className="align-middle mx-1"
+                                style={{ fontSize: "8px" }}
+                              >
+                                |
+                              </span>
+                              {/* <i className="fa fa-map-marker-alt mr-1"></i> Jordan */}
+                            </small>
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    </Link>
                   </div>
                 </div>
               </div>
-            </div>
-            <span className="progress progress-xs mb-3">
-              <span
-                className="percentage bg-success"
-                style={ { width: "3.03%" } }
-                aria-valuemin="0"
-                aria-valuemax="100"
-                role="progressbar"
-              ></span>
-            </span>
-            <small className="btn-block margin-bottom-10 text-muted d-flex justify-content-between">
-              <div><strong className="text-strong-small ">{ review.amount }</strong> raised of
-                $33,000 goal </div>
-              <strong className="text-percentage  ">3.03%</strong>
-            </small>
-            <ul className="list-inline my-4 border-top border-bottom py-3 text-center">
-              <li
-                className="list-inline-item border-right"
-                style={ { width: "31%" } }
-              >
-                <i className="fa fa-donate align-baseline text-success"></i> 1
-                Donation
-              </li>
-              <li
-                className="list-inline-item border-right"
-                style={ { width: "31%" } }
-              >
-                <i className="fa fa-infinity text-success"></i> No deadline
-              </li>
+              <span className="progress progress-xs mb-3">
+                <span
+                  className="percentage bg-success"
+                  style={{ width: "93%" }}
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  role="progressbar"
+                ></span>
+              </span>
+              <small className="btn-block margin-bottom-10 text-muted d-flex justify-content-between">
+                <div>
+                  <strong className="text-strong-small ">
+                    {review?.amount}
+                  </strong>{" "}
+                  raised of $33,000 goal{" "}
+                </div>
+                <strong className="text-percentage  ">3.03%</strong>
+              </small>
+              <ul className="list-inline my-4 border-top border-bottom py-3 text-center">
+                <li
+                  className="list-inline-item border-right"
+                  style={{ width: "31%" }}
+                >
+                  <i className="fa fa-donate align-baseline text-success"></i> 1
+                  Donation
+                </li>
+                <li
+                  className="list-inline-item border-right"
+                  style={{ width: "31%" }}
+                >
+                  <i className="fa fa-infinity text-success"></i>{" "}
+                  {`Deadline: ${
+                    review.daysRemaining > 0 ? review?.daysRemaining : 0
+                  } days`}
+                </li>
 
-              <li className="list-inline-item" style={ { width: "31%" } }>
-                <i className="far fa-heart align-baseline text-success"></i>
-                <span id="countLikes">0</span> Likes
-              </li>
-            </ul>
-            <div className="btn-group btn-block col-12 mb-2 ">
-              <a
-                onClick={ handleShow }
-                className="btn btn-main bg-dark  text-white no-hover btn-lg btn-block custom-rounded"
+                <li className="list-inline-item" style={{ width: "31%" }}>
+                  {/* <i className="far fa-heart align-baseline text-success"></i> */}
+
+                  {/* <button
+                    className={`btn ${
+                      liked ? "btn-danger" : "btn-outline-success"
+                    } btn-sm`}
+                    onClick={handleLike}
+                  >
+                    {liked ? "Unlike" : "Like"}
+                  </button> */}
+
+                  <button
+                    className={`btn ${
+                      liked ? "btn-outline-success" : "btn-outline-danger"
+                    } btn-sm  border-0`}
+                    onClick={handleLike}
+                  >
+                    <i
+                      className={`far fa-heart align-baseline ${
+                        liked ? "text-success" : "text-danger"
+                      } border-0`}
+                    ></i>{" "}
+                    {/* {liked ? "Unlike" : "Like"} */}
+                  </button>
+                  {liked ? (
+                    <>
+                      {/* <i className="far fa-heart align-baseline text-success"></i>{""} */}
+                      <span id="countLikes">{likesCount}</span> Likes
+                    </>
+                  ) : (
+                    <>
+                      {/* <i className="far fa-heart align-baseline text-success"></i>{" "} */}
+                      {likesCount} Likes
+                    </>
+                  )}
+                </li>
+              </ul>
+              <div className="btn-group btn-block col-12 mb-2 ">
+                <a
+                  onClick={handleShow}
+                  className="btn btn-main bg-dark  text-white no-hover btn-lg btn-block custom-rounded"
+                >
+                  Donate Now
+                </a>
+              </div>
+
+              <Modal
+                show={showShareModal}
+                onHide={handleCloseShareModal}
+                backdrop="static"
+                keyboard={false}
               >
-                Donate Now
-              </a>
-            </div>
-            <div className="btn-group btn-block col-12">
-              <a
-                href=""
-                className="btn btn-main btn-outline-primary no-hover btn-lg w-100"
-              >
-                Share
-              </a>
+                <Modal.Header closeButton>
+                  <Modal.Title>Share on Social Media</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                  <div className="container">
+                    <div className="row">
+                      <div className="col-md-4 col-6 text-center mb-5">
+                        <a
+                          href="https://www.facebook.com/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn btn-primary btn-social-icon"
+                        >
+                          <FontAwesomeIcon icon={faFacebook} size="lg" />
+                        </a>
+                      </div>
+                      <div className="col-md-4 col-6 text-center mb-5">
+                        <a
+                          href="https://www.twitter.com/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn btn-primary btn-social-icon"
+                        >
+                          <FontAwesomeIcon icon={faTwitter} size="lg" />
+                        </a>
+                      </div>
+                      <div className="col-md-4 col-6 text-center mb-5">
+                        <a
+                          href="https://www.instagram.com/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn btn-primary btn-social-icon"
+                        >
+                          <FontAwesomeIcon icon={faInstagram} size="lg" />
+                        </a>
+                      </div>
+                      <div className="col-md-4 col-6 text-center ">
+                        <a
+                          href="https://www.linkedin.com/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn btn-primary btn-social-icon"
+                        >
+                          <FontAwesomeIcon icon={faLinkedin} size="lg" />
+                        </a>
+                      </div>
+                      <div className="col-md-4 col-6 text-center ">
+                        <a
+                          href="https://www.pinterest.com/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn btn-primary btn-social-icon"
+                        >
+                          <FontAwesomeIcon icon={faPinterest} size="lg" />
+                        </a>
+                      </div>
+                      <div className="col-md-4 col-6 text-center  ">
+                        <a
+                          href="https://www.youtube.com/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn btn-primary btn-social-icon"
+                        >
+                          <FontAwesomeIcon icon={faYoutube} size="lg" />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </Modal.Body>
+              </Modal>
+
+              <div className="btn-group btn-block col-12">
+                <a
+                  onClick={handleShowShareModal}
+                  className="btn btn-main btn-outline-primary no-hover btn-lg w-100"
+                >
+                  Share
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      </div>
-      {/* story */ }
+      {/* story */}
       <div className="container pb-5">
         <div className="row">
           <div className="col-md-8">
@@ -214,7 +421,6 @@ function Donation() {
                   <strong>The Story</strong>
                 </a>
               </li>
-
             </ul>
 
             <div className="tab-content py-3">
@@ -223,7 +429,7 @@ function Donation() {
                 className="tab-pane fade show active description text-break"
                 id="desc"
               >
-                { review?.description }
+                {review?.description}
               </div>
 
               <div
@@ -234,15 +440,15 @@ function Donation() {
                 <ul className="list-unstyled" id="listDonations">
                   <li className="media py-2">
                     <img
-                      src="https://fundmescript.com/public/img/donor.jpg"
+                      src={review.profileImage}
                       width="60"
                       className="rounded-circle mr-3"
                       alt="Joel Acq"
                     />
                     <div className="media-body">
                       <h6 className="mt-0 mb-1">
-                        Joel Acq <span className="fw-light">donated</span>{ " " }
-                        <span className="text-success">$1,000</span>{ " " }
+                        Joel Acq <span className="fw-light">donated</span>{" "}
+                        <span className="text-success">$1,000</span>{" "}
                       </h6>
                       <p className="mb-0">boom</p>
                       <small
@@ -301,12 +507,12 @@ function Donation() {
                       allow="encrypted-media"
                       src="https://www.facebook.com/v2.8/plugins/comments.php?app_id=&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Df8dc8814535d98%26domain%3Dfundmescript.com%26is_canvas%3Dfalse%26origin%3Dhttps%253A%252F%252Ffundmescript.com%252Ffe6eeada371308%26relation%3Dparent.parent&amp;container_width=0&amp;height=100&amp;href=https%3A%2F%2Ffundmescript.com%2Fcampaign%2F1386%2Fhelp-my-jobless-friend&amp;locale=en_US&amp;sdk=joey&amp;title=Help%20my%20jobless%20friend%20-%20Fundme%20%7C%20Crowdfunding%20Platform&amp;url=https%3A%2F%2Ffundmescript.com%2Fcampaign%2F1386%2Fhelp-my-jobless-friend&amp;version=v2.8&amp;width=550&amp;xid=https%253A%252F%252Ffundmescript.com%252Fcampaign%252F1386%252Fhelp-my-jobless-friend"
                       className=""
-                      style={ {
+                      style={{
                         border: "none",
                         visibility: "visible",
                         width: "550px",
                         height: "0",
-                      } }
+                      }}
                     ></iframe>
 
                     <span></span>
