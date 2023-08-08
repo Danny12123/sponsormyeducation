@@ -14,6 +14,7 @@ const initialState = {
   userProfile:{},
   review: {},
   expires: null,
+  boosted:null
 };
 
 export const counterSlice = createSlice({
@@ -34,6 +35,9 @@ export const counterSlice = createSlice({
     },
     ExpiredCampaign: (state, action) => {
       state.expires = action.payload;
+    },
+    BoostedCampaign: (state, action) => {
+      state.boosted = action.payload;
     },
     // toggleLike: (state) => {
     //   state.liked = !state.liked; // Toggle the liked state first
@@ -66,5 +70,6 @@ export const {
   reviewCampaign,
   ExpiredCampaign,
   toggleLike,
+  BoostedCampaign,
   logoutUser,
 } = counterSlice.actions;

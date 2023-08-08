@@ -1,6 +1,6 @@
 import {  useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { useSelector } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 //import { addCampaign} from '../store/reducer';
 import { useNavigate } from "react-router-dom";
 //import firebase from 'firebase/app';
@@ -10,6 +10,7 @@ import "firebase/storage";
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
 import "../datepicker.css"; 
+import { BoostedCampaign } from "../store/reducer";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 
@@ -30,7 +31,7 @@ function CampaignForm() {
   const { likes } = useSelector((state) => state.Campaign);
   const userProfile = useSelector((state) => state.Campaign.userProfile);
   
-
+  const dispatch = useDispatch()
 
 
   //const dispatch = useDispatch()
@@ -87,6 +88,7 @@ function CampaignForm() {
           daysRemaining:daysRemaining,
           likes:0,
           likesBy:[],
+          boosted: false,
           category:category,
           profile:userProfile,
           id: uuidv4(),
@@ -94,6 +96,7 @@ function CampaignForm() {
 
         try {
           await setDoc(doc(db, "Campaign", newCampaignData.id ), newCampaignData);
+          dispatch(BoostedCampaign(newCampaignData.id))
           alert("Data sent to Firestore successfully!");
           // Optionally, reset the form fields after successful submission
           setCampaignName('');
@@ -168,7 +171,7 @@ function CampaignForm() {
 
             <div className="form-outline mb-4 ">
               <label className="form-label" htmlFor="amount">
-                Amount
+                Campaign Goal
               </label>
               <input
                 type="number"

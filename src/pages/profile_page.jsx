@@ -3,7 +3,7 @@ import JumbotronBackground from "../sections/jumbotron"
 import Footer from "../footer"
 import Profile from "../sections/profile"
 
-function ProfilePage({newDate}) {
+function ProfilePage({newDate,userEmail}) {
   return (
     <div>
         <Navigation />

@@ -12,7 +12,7 @@ import CampaignPage from "./pages/campaign_page";
 import DonationPage from "./pages/donationPage";
 import EndedPage from "./pages/ended_page";
 import { useEffect, useState } from 'react';
-import { useDispatch } from "react-redux";
+import { useDispatch} from "react-redux";
 import { addCampaign } from "./store/reducer";
 import { getFirestore, getDocs } from 'firebase/firestore';
 import { onSnapshot, collection, query } from "firebase/firestore";
@@ -22,6 +22,7 @@ import BusinessPage from "./pages/business_page";
 import ProfilePage from "./pages/profile_page";
 
 function App() {
+ 
   const dispatch = useDispatch()
   const [newDate, setNewDate] = useState([]);
   const fetchDataFromFirestore = async () => {
@@ -73,7 +74,7 @@ function App() {
      <Route path="/health" element={<HealthPage newDate={ newDate}/>} />
      <Route path="/business" element={<BusinessPage newDate={ newDate}/>} />
      <Route path="/ended" element={<EndedPage newDate={ newDate}/>} />
-     <Route path="/profile" element={<ProfilePage newDate={newDate}/>} />
+     <Route path="/profile" element={<ProfilePage newDate={newDate} />} />
     </Routes>
   );
 }
