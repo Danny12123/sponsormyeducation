@@ -12,24 +12,29 @@ import { db } from "../firebase";
 import { collection, doc } from "firebase/firestore";
 
 function Profile({ newDate }) {
+  //console.log(newDate)
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [amount, setAmount] = useState("");
   const [show, setShow] = useState(false);
+  const [boostedCampaign, setBoostedCampaign] = useState(null);
 
   const boosted = useSelector((state) => state.Campaign.boosted);
-  console.log(boosted)
+  //console.log(boosted)
   const review = useSelector((state) => state.Campaign.review);
   const userProfile = useSelector((state) => state.Campaign.userProfile);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const dispatch = useDispatch();
 
+  
+
   const handlePay = async (event) => {
     event.preventDefault();
+    const localBoostedCampaign = boostedCampaign;
     const paystack = new PaystackPop();
     paystack.newTransaction({
-     // key: "pk_live_e286893e885cd92c8d302bd811d9e23e6ef14642",
+      // key: "pk_live_e286893e885cd92c8d302bd811d9e23e6ef14642",
       key: "pk_test_2cff05b0b363519ca965a0e558e9ee767bcea1fd",
       amount: amount * 100,
       Phone: phone,
@@ -37,12 +42,13 @@ function Profile({ newDate }) {
       onSuccess(transaction) {
         let message = `Payment Complete! Reference ${transaction.reference}`;
         //  setDoc(doc(db, "donate", donateData.id), donateData);
-        
-        const boostedCampaign = newDate.find((item) => item.id == boosted.id);
+        const filterCampaign = newDate.find((item) => item.id == boosted);
+        setBoostedCampaign(filterCampaign)
 
-        if (boostedCampaign) {
+        if (localBoostedCampaign) {
+          console.log(localBoostedCampaign)
           db.collection("Campaign")
-            .doc(boosted.id)
+            .doc(boosted)
             .update({ boosted: true })
             .then(() => {
               // Dispatch the action to mark the campaign as boosted in Redux
@@ -54,13 +60,15 @@ function Profile({ newDate }) {
         } else {
           console.error("Boosted campaign not found!");
         }
-
         alert(message);
       },
       onCancel() {
         alert("You have Canceled the transaction");
       },
     });
+
+    
+    
     setAmount("");
     setPhone("");
     setEmail("");
@@ -69,7 +77,7 @@ function Profile({ newDate }) {
     <div className="container-fluid mt-5">
       <div className="row">
         <div className="col-md-4">
-          <img className="img-fluid" src={userProfile.profileImageURL} />
+          <img className="img-fluid" src={review.profile?.profileImageURL} />
         </div>
         <div className="col-md-8">
           <div className="card">
@@ -83,7 +91,7 @@ function Profile({ newDate }) {
                     <div className="col-md-6">
                       <div className="row ">
                         <div className="col-5">Name</div>
-                        <div className="col-7">{userProfile.fullName}</div>
+                        <div className="col-7">{review.profile?.fullName}</div>
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -103,7 +111,7 @@ function Profile({ newDate }) {
                     <div className="col-md-6">
                       <div className="row">
                         <div className="col-5">Email:</div>
-                        <div className="col-7">{userProfile.email}</div>
+                        <div className="col-7">{review.profile?.email}</div>
                       </div>
                     </div>
                   </div>
@@ -117,7 +125,9 @@ function Profile({ newDate }) {
                     <div className="col-md-6">
                       <div className="row">
                         <div className="col-5">Phone:</div>
-                        <div className="col-7">{userProfile.phoneNumber}</div>
+                        <div className="col-7">
+                          {review.profile?.phoneNumber}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -150,7 +160,7 @@ function Profile({ newDate }) {
               <h1>{review.profile?.fullName} campaigns</h1>
             </div>
             {newDate.map((item, index) => {
-              if (item && item.profile?.id === userProfile.id) {
+              if (item && item.profile?.id === review.profile.id) {
                 return (
                   <div className="col-md-4" key={index}>
                     <div className="card campaigns mb-3 shadow-sm fixed-height-card">
@@ -278,11 +288,9 @@ function Profile({ newDate }) {
                   </div>
                 );
               } else {
-          
-                  <div>
-                    <h3>No campaign</h3>
-                  </div>
-                
+                <div>
+                  <h3>No campaign</h3>
+                </div>;
               }
             })}
           </div>

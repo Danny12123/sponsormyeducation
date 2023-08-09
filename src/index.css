@@ -8,6 +8,14 @@ body,
 }
 
 
+@media (max-width: 991.98px) {
+  .mobile-spacing {
+    margin-top: 20px; /* Adjust the spacing value as needed */
+
+  }
+}
+
+
 /* Custom CSS to reduce the height of the Carousel */
 .carousel {
   max-height: 500px; /* Adjust the height as per your requirement */
@@ -50,11 +58,17 @@ body,
 }
 
 .fixed-height-image{
-  height:200px
+  height:263px
+}
+
+.orange {
+  color: #fff;
+  background-color: #ff8c00; /* Adjust the color as needed */
+  border-color: #ff8c00; /* Adjust the color as needed */
 }
 
 .image{
-  background-image: url("https://images.pexels.com/photos/8948347/pexels-photo-8948347.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+  background-image: url("https://media.istockphoto.com/id/1373670875/photo/rearview-shot-of-a-young-woman-cheering-on-graduation-day.webp?b=1&s=612x612&w=0&k=20&c=T_ui3MP92nubNN4IxeSgkkLjetQ3dxuolab2VMZRftA=");
   
 }
 

@@ -13,7 +13,7 @@ const CarouselComponent = () => {
       <Carousel.Item>
         <img
           className="d-block img-fluid w-100 "
-          src="https://images.pexels.com/photos/11025019/pexels-photo-11025019.jpeg?auto=compress&cs=tinysrgb&w=600"
+          src="https://images.pexels.com/photos/5940845/pexels-photo-5940845.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
           alt="happy kids"
         />
         <div className="carousel-caption d-none d-md-block " style={{marginBottom: "10em"}}>
@@ -24,7 +24,7 @@ const CarouselComponent = () => {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src="https://images.pexels.com/photos/14554004/pexels-photo-14554004.jpeg?auto=compress&cs=tinysrgb&w=600"
+          src="https://images.pexels.com/photos/8197532/pexels-photo-8197532.jpeg?auto=compress&cs=tinysrgb&w=600"
           alt="Children drinking water"
         />
          <div className="carousel-caption d-none d-md-block" style={{marginBottom: "10em"}}>
@@ -35,7 +35,7 @@ const CarouselComponent = () => {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src="https://images.pexels.com/photos/11139373/pexels-photo-11139373.jpeg?auto=compress&cs=tinysrgb&w=600"
+          src="https://images.pexels.com/photos/7713173/pexels-photo-7713173.jpeg?auto=compress&cs=tinysrgb&w=600"
           alt="Girl looking at camera"
         />
          <div className="carousel-caption d-none d-md-block" style={{marginBottom: "10em"}}>

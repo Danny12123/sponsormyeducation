@@ -28,6 +28,11 @@ function RegisterForm() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    
+    if (!fullName || !email || !password || !profileImage || !phoneNumber) {
+      setError("Please fill out all required fields.");
+      return; // Stop further execution
+    }
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;

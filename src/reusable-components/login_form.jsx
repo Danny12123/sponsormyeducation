@@ -14,18 +14,35 @@ function LoginForm() {
   const navigate = useNavigate();
 
   const handleSignIn = (e) => {
+
     e.preventDefault();
-    try {
-      signInWithEmailAndPassword(auth, email, password).then(
-        (userCredential) => {
-          const firebaseUser = userCredential.user;
-          dispatch(setUser(firebaseUser.email));
-          navigate("/")
-        }
-      );
-    } catch (error) {
-      setError(error.message);
+
+    if ( !email || !password ) {
+      setError("Please fill out all required fields.");
+      return; // Stop further execution
     }
+
+    signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      const firebaseUser = userCredential.user;
+      dispatch(setUser(firebaseUser.email));
+      navigate("/");
+    })
+    .catch((error) => {
+      setError(error.message);
+    });
+    // try {
+    //   signInWithEmailAndPassword(auth, email, password).then(
+    //     (userCredential) => {
+    //       const firebaseUser = userCredential.user;
+    //       dispatch(setUser(firebaseUser.email));
+    //       navigate("/")
+    //     }
+    //   );
+    // } catch (error) {
+    //   console.log(error)
+    //   setError(error.message);
+    // }
   };
 
   return (

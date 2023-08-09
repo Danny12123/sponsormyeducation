@@ -5,7 +5,7 @@ export default function featured_campaign() {
         <span className="display-4 text-warning">
           <i className="fa fa-award"></i>
         </span>
-        <h1>Featured Campaign</h1>
+        <h1>Educational Campaign</h1>
         <p>Campaigns selected by our team</p>
       </div>
       <div className="container">
@@ -20,8 +20,8 @@ export default function featured_campaign() {
                   <i className="fa fa-award"></i>
                 </div>
                 <img
-                  className="card-img-top"
-                  src="https://fundmescript.com/public/campaigns/small/11610223753zfnetyryxqvbz1dut5ecxqzgx9ybkrxwiosgzhup.jpg"
+                  className="card-img-top fixed-height-image"
+                  src="https://images.pexels.com/photos/5940714/pexels-photo-5940714.jpeg?auto=compress&cs=tinysrgb&w=600"
                   alt="Charity Vimeo"
                 />
               </a>
@@ -89,8 +89,8 @@ export default function featured_campaign() {
                   <i className="fa fa-award"></i>
                 </div>
                 <img
-                  className="card-img-top"
-                  src="https://fundmescript.com/public/campaigns/small/11610084334nrok4h7lmvqqxns909s1amwa0jzewmui9fcsghdk.jpg"
+                  className="card-img-top fixed-height-image"
+                  src="https://images.pexels.com/photos/3028514/pexels-photo-3028514.jpeg?auto=compress&cs=tinysrgb&w=600"
                   alt="Community help"
                 />
               </a>
@@ -158,8 +158,8 @@ export default function featured_campaign() {
                   <i className="fa fa-award"></i>
                 </div>
                 <img
-                  className="card-img-top"
-                  src="https://fundmescript.com/public/campaigns/small/1041481591750gf9l4babqavizbhrakx24lmo2vdkfvuzvmlvly0e.jpg"
+                  className="card-img-top fixed-height-image"
+                  src="https://images.pexels.com/photos/1139312/pexels-photo-1139312.jpeg?auto=compress&cs=tinysrgb&w=600"
                   alt="Save the Giraffe"
                 />
               </a>
