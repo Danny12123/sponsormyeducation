@@ -2,15 +2,16 @@
 import Navigation from '../navbar/Navigation'
 import JumbotronBackground from '../sections/jumbotron'
 import Footer from '../footer'
-import FeaturedCampaign from '../sections/featured_campaign'
+import Featured from '../sections/featured_campaign'
 
 
-function FeaturedPage() {
+function FeaturedPage({newDate}) {
+  console.log(newDate)
   return (
     <div>
         <Navigation/>
         <JumbotronBackground />
-        <FeaturedCampaign />
+        <Featured newDate={newDate}/>
         <Footer />
     </div>
   )

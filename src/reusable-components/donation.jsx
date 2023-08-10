@@ -89,13 +89,33 @@ function Donation() {
     event.preventDefault();
     const paystack = new PaystackPop();
     paystack.newTransaction({
-      key: "pk_live_e286893e885cd92c8d302bd811d9e23e6ef14642",
+      // key: "pk_live_e286893e885cd92c8d302bd811d9e23e6ef14642",
+      key: "pk_test_2cff05b0b363519ca965a0e558e9ee767bcea1fd",
       amount: amount * 100,
       Phone: phone,
       email: email,
       onSuccess(transaction) {
         let message = `Payment Complete! Reference ${transaction.reference}`;
         //  setDoc(doc(db, "donate", donateData.id), donateData);
+        const reference = transaction.reference;
+        fetch(`https://api.paystack.co/transaction/verify/${reference}`, {
+          headers: {
+            Authorization:
+              'Bearer pk_test_2cff05b0b363519ca965a0e558e9ee767bcea1fd',
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            const paidAmount = data.data.amount / 100; // Convert to original currency
+            const message = `Payment Complete! Reference ${reference}. Amount: ${paidAmount}`;
+            alert(message);
+          })
+          .catch((error) => {
+            console.error("Error fetching payment details:", error);
+            alert("An error occurred while fetching payment details.");
+          });
+
         alert(message);
       },
       onCancel() {

@@ -20,6 +20,7 @@ import { db } from "./firebase";
 import HealthPage from "./pages/health_page";
 import BusinessPage from "./pages/business_page";
 import ProfilePage from "./pages/profile_page";
+import Layout from "../Layout";
 
 function App() {
  
@@ -60,12 +61,12 @@ function App() {
  // console.log(newDate)
   return (
     
-    <Routes>
-      <Route path="/" element={ <HomePage newDate={ newDate } />}/> 
+    <Routes> 
+      <Route path="/" element={<Layout> <HomePage newDate={ newDate } /></Layout>}/> 
      <Route path="/login" element={<LoginPage />}/> 
      <Route path="/howitworks" element={<HowItWorks />}/> 
      <Route path="/latest" element={<LatestCampaign newDate={ newDate}/>}/> 
-     <Route path="/featured" element={<FeaturedPage />}/> 
+     <Route path="/featured" element={<FeaturedPage newDate={newDate} />} /> 
      <Route path="/popular" element={<PopularPage newDate={newDate}/>}/> 
      <Route path="/gallery" element={<GalleryPage />}/> 
      <Route path="/register" element={<CreateCampaign />}/>
@@ -75,6 +76,7 @@ function App() {
      <Route path="/business" element={<BusinessPage newDate={ newDate}/>} />
      <Route path="/ended" element={<EndedPage newDate={ newDate}/>} />
      <Route path="/profile" element={<ProfilePage newDate={newDate} />} />
+  
     </Routes>
   );
 }

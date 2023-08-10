@@ -9,7 +9,9 @@ import { usePaystackPayment } from "react-paystack";
 import PaystackPop from "@paystack/inline-js";
 import "firebase/firestore";
 import { db } from "../firebase";
-import { collection, doc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
+import { useEffect } from "react";
+
 
 function Profile({ newDate }) {
   //console.log(newDate)
@@ -27,11 +29,17 @@ function Profile({ newDate }) {
   const handleShow = () => setShow(true);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    const filterCampaign = newDate.find((item) => item.id == boosted);
+    if (filterCampaign) {
+      setBoostedCampaign(filterCampaign);
+    }
+  }, [boosted, newDate]);
   
+
 
   const handlePay = async (event) => {
     event.preventDefault();
-    const localBoostedCampaign = boostedCampaign;
     const paystack = new PaystackPop();
     paystack.newTransaction({
       // key: "pk_live_e286893e885cd92c8d302bd811d9e23e6ef14642",
@@ -39,24 +47,21 @@ function Profile({ newDate }) {
       amount: amount * 100,
       Phone: phone,
       email: email,
-      onSuccess(transaction) {
+      async onSuccess(transaction) {
         let message = `Payment Complete! Reference ${transaction.reference}`;
         //  setDoc(doc(db, "donate", donateData.id), donateData);
-        const filterCampaign = newDate.find((item) => item.id == boosted);
-        setBoostedCampaign(filterCampaign)
-
-        if (localBoostedCampaign) {
-          console.log(localBoostedCampaign)
-          db.collection("Campaign")
-            .doc(boosted)
-            .update({ boosted: true })
-            .then(() => {
-              // Dispatch the action to mark the campaign as boosted in Redux
-              // dispatch(boostCampaign(boostedCampaign.id));
-            })
-            .catch((error) => {
-              console.error("Error updating document: ", error);
+      
+        if (boostedCampaign) {
+          try {
+            await updateDoc(doc(db, "Campaign", boostedCampaign.id), {
+              boosted: true,
             });
+      
+            alert("Campaign successfully boosted!");
+          } catch (error) {
+            console.error("Error updating document: ", error);
+            alert("An error occurred while boosting the campaign.");
+          }
         } else {
           console.error("Boosted campaign not found!");
         }
@@ -67,8 +72,6 @@ function Profile({ newDate }) {
       },
     });
 
-    
-    
     setAmount("");
     setPhone("");
     setEmail("");
