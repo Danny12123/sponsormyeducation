@@ -2,15 +2,13 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { reviewCampaign } from "../store/reducer";
-import { useState } from "react";
 
-function New({newDate}) {
-  const dispatch = useDispatch()
-  
+function New() {
+  const dispatch = useDispatch();
 
-
-  const expiryDays = useSelector((state) => state.Campaign.expires)
-  newDate.sort((a, b) => b.date - a.date);
+  const data = useSelector((state) => state.Campaign.data);
+  const sorted = [...data];
+  sorted.sort((a, b) => b.date - a.date);
   return (
     <div className="section py-5">
       <div className="btn-block text-center mb-5">
@@ -19,8 +17,7 @@ function New({newDate}) {
       </div>
       <div className="container">
         <div className="row">
-          {/* <div className=""></div> */}
-          {newDate.map((item, index) => {
+          {sorted.map((item, index) => {
             if (item) {
               return (
                 <div className="col-md-4" key={index}>
@@ -42,7 +39,8 @@ function New({newDate}) {
                       <div className="card-body">
                         <small className="btn-block mb-1">
                           <div className="text-muted">
-                            <i className="far fa-folder-open"></i> {item.category}
+                            <i className="far fa-folder-open"></i>{" "}
+                            {item.category}
                           </div>
                         </small>
                         <h5 className="card-title text-truncate">
@@ -79,7 +77,9 @@ function New({newDate}) {
 
                           <small className="text-truncate">
                             <i className="fa fa-infinity text-success"></i>{" "}
-                            {`Deadline: ${item.daysRemaining > 0 ? item.daysRemaining:0} days`}
+                            {`Deadline: ${
+                              item.daysRemaining > 0 ? item.daysRemaining : 0
+                            } days`}
                           </small>
                         </div>
                       </div>
@@ -90,7 +90,7 @@ function New({newDate}) {
             } else {
               <div>
                 <h3>No campaign</h3>
-              </div>
+              </div>;
             }
           })}
         </div>

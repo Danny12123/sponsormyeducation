@@ -4,22 +4,22 @@ import { useDispatch } from "react-redux";
 import { reviewCampaign } from "../store/reducer";
 import { useState } from "react";
 
-function PopularContent({newDate}) {
-  const dispatch = useDispatch()
+function PopularContent() {
+  const dispatch = useDispatch();
 
+  const data = useSelector((state) => state.Campaign.data);
 
-  const expiryDays = useSelector((state) => state.Campaign.expires)
-  newDate.sort((a, b) => b.likes - a.likes);
+  const sorted = [...data];
+  sorted.sort((a, b) => b.likes - a.likes);
   return (
     <div className="section py-5">
       <div className="btn-block text-center mb-5">
-        <h1>Explore New Campaigns</h1>
-        <p>Recent Campaigns</p>
+        <h1>Popular Campaigns</h1>
       </div>
       <div className="container">
         <div className="row">
           {/* <div className=""></div> */}
-          {newDate.map((item, index) => {
+          {sorted.map((item, index) => {
             if (item) {
               return (
                 <div className="col-md-4" key={index}>
@@ -41,7 +41,8 @@ function PopularContent({newDate}) {
                       <div className="card-body">
                         <small className="btn-block mb-1">
                           <div className="text-muted">
-                            <i className="far fa-folder-open"></i> {item.category}
+                            <i className="far fa-folder-open"></i>{" "}
+                            {item.category}
                           </div>
                         </small>
                         <h5 className="card-title text-truncate">
@@ -78,7 +79,9 @@ function PopularContent({newDate}) {
 
                           <small className="text-truncate">
                             <i className="fa fa-infinity text-success"></i>{" "}
-                            {`Deadline: ${item.daysRemaining > 0 ? item.daysRemaining:0} days`}
+                            {`Deadline: ${
+                              item.daysRemaining > 0 ? item.daysRemaining : 0
+                            } days`}
                           </small>
                         </div>
                       </div>
@@ -89,7 +92,7 @@ function PopularContent({newDate}) {
             } else {
               <div>
                 <h3>No campaign</h3>
-              </div>
+              </div>;
             }
           })}
         </div>
@@ -99,4 +102,3 @@ function PopularContent({newDate}) {
 }
 
 export default PopularContent;
-

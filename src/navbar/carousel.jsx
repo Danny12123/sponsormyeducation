@@ -16,9 +16,9 @@ const CarouselComponent = () => {
           src="https://images.pexels.com/photos/5940845/pexels-photo-5940845.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
           alt="happy kids"
         />
-        <div className="carousel-caption d-none d-md-block " style={{marginBottom: "10em"}}>
-          <h1 className= {`fade-in ${isVisible ? "visible" : ""}`}>Educating the Future</h1>
-          <h5 className= {`fade-in ${isVisible ? "visible" : ""}`}>With A Small Contribution You Can Help Educate Thousands of Children</h5>
+        <div className="carousel-caption d-none d-md-block text-bold" style={{marginBottom: "10em"}}>
+          <h1 className= {`fade-in ${isVisible ? "visible" : ""}`}>Sponser My Education</h1>
+          <h3 className= {`fade-in ${isVisible ? "visible" : ""}`}>Help Make Dreams A Reality</h3>
         </div>
       </Carousel.Item>
       <Carousel.Item>
@@ -27,9 +27,9 @@ const CarouselComponent = () => {
           src="https://images.pexels.com/photos/8197532/pexels-photo-8197532.jpeg?auto=compress&cs=tinysrgb&w=600"
           alt="Children drinking water"
         />
-         <div className="carousel-caption d-none d-md-block" style={{marginBottom: "10em"}}>
-          <h1 className= {`fade-in ${isVisible ? "visible" : ""}`}>Little Help For Big Cause</h1>
-          <h5 className= {`fade-in ${isVisible ? "visible" : ""}`}>With A Small Contribution You Can Help Educate Thousands of Children</h5>
+         <div className="carousel-caption d-none d-md-block text-bold" style={{marginBottom: "10em"}}>
+          <h1 className= {`fade-in ${isVisible ? "visible" : ""}`}> Sponser My Education</h1>
+          <h3 className= {`fade-in ${isVisible ? "visible" : ""}`}>Little Help For Big Cause</h3>
         </div>
       </Carousel.Item>
       <Carousel.Item>
@@ -38,9 +38,9 @@ const CarouselComponent = () => {
           src="https://images.pexels.com/photos/7713173/pexels-photo-7713173.jpeg?auto=compress&cs=tinysrgb&w=600"
           alt="Girl looking at camera"
         />
-         <div className="carousel-caption d-none d-md-block" style={{marginBottom: "10em"}}>
-          <h1 className= {`fade-in ${isVisible ? "visible" : ""}`}>Sponser My Campaign</h1>
-          <h5 className= {`fade-in ${isVisible ? "visible" : ""}`}>With A Small Contribution You Can Help Educate Thousands of Children</h5>
+         <div className="carousel-caption d-none d-md-block text-bold" style={{marginBottom: "10em"}}>
+          <h1 className= {`fade-in ${isVisible ? "visible" : ""}`} >Sponser My Education</h1>
+          <h3 className= {`fade-in ${isVisible ? "visible" : ""}`}>Give Someone Hope</h3>
         </div>
       </Carousel.Item>
     </Carousel>

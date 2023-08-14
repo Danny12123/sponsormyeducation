@@ -3,12 +3,12 @@ import JumbotronBackground from "../sections/jumbotron"
 import Business from "../sections/business"
 import Footer from "../footer"
 
-function BusinessPage({newDate}) {
+function BusinessPage() {
   return (
     <div>
         <Navigation />
         <JumbotronBackground />
-        <Business newDate={ newDate}/>
+        <Business />
         <Footer />
     </div>
   )

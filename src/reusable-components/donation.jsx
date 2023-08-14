@@ -7,10 +7,9 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import PaystackPop from "@paystack/inline-js";
-import { toggleLike } from "../store/reducer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import { auth, db, storage } from "../firebase";
+import { db } from "../firebase";
 
 import {
   collection,
@@ -35,8 +34,6 @@ function Donation() {
   const [likesCount, setLikesCount] = useState(review.likes || 0);
   const [liked, setLiked] = useState(false);
 
-  //const { likes, liked } = useSelector((state) => state.Campaign);
-
   const [showShareModal, setShowShareModal] = useState(false);
 
   const handleCloseShareModal = () => setShowShareModal(false);
@@ -49,7 +46,6 @@ function Donation() {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     // Check if the current user has already liked the campaign
@@ -101,12 +97,11 @@ function Donation() {
         fetch(`https://api.paystack.co/transaction/verify/${reference}`, {
           headers: {
             Authorization:
-              'Bearer pk_test_2cff05b0b363519ca965a0e558e9ee767bcea1fd',
+              "Bearer pk_test_2cff05b0b363519ca965a0e558e9ee767bcea1fd",
           },
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
             const paidAmount = data.data.amount / 100; // Convert to original currency
             const message = `Payment Complete! Reference ${reference}. Amount: ${paidAmount}`;
             alert(message);
@@ -292,15 +287,6 @@ function Donation() {
                 <li className="list-inline-item" style={{ width: "31%" }}>
                   {/* <i className="far fa-heart align-baseline text-success"></i> */}
 
-                  {/* <button
-                    className={`btn ${
-                      liked ? "btn-danger" : "btn-outline-success"
-                    } btn-sm`}
-                    onClick={handleLike}
-                  >
-                    {liked ? "Unlike" : "Like"}
-                  </button> */}
-
                   <button
                     className={`btn ${
                       liked ? "btn-outline-success" : "btn-outline-danger"
@@ -312,7 +298,6 @@ function Donation() {
                         liked ? "text-success" : "text-danger"
                       } border-0`}
                     ></i>{" "}
-                    {/* {liked ? "Unlike" : "Like"} */}
                   </button>
                   {liked ? (
                     <>

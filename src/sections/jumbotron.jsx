@@ -5,9 +5,9 @@ const JumbotronBackground = () => {
   const user = useSelector((state) => state.Campaign.user);
   return (
     <div className="jumbotron jumbotron-fluid ">
-      <div className="container-fluid image text-black text-center py-5">
-        <h1 className="display-4 mt-5">A little Help Can Make a Difference</h1>
-        <h3 className="lead">Sponser My Education Platform</h3>
+      <div className="container-fluid image text-black text-center py-5 text-bold">
+        <h1 className="display-4 mt-5 ">Sponser My Education Platform</h1>
+        <h3 className="lead">A little Help Can Make a Difference </h3>
         <p>
           {user && (
             <Link

@@ -1,23 +1,21 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { reviewCampaign } from "../store/reducer";
 
-function Health({newDate}) {
-    const dispatch = useDispatch()
+function Health() {
+  const data = useSelector((state) => state.Campaign.data);
+  const dispatch = useDispatch();
   return (
     <div className="section py-5">
       <div className="btn-block text-center mb-5">
         <h1>Health Campaigns</h1>
-      
       </div>
       <div className="container">
         <div className="row">
-          {/* <div className=""></div> */}
-          
-          {newDate.map((item, index) => {
-            console.log(item?.category)
+          {data.map((item, index) => {
+            console.log(item?.category);
 
-            if (item && (item?.category == "Health")) {
+            if (item && item?.category == "Health") {
               return (
                 <div className="col-md-4" key={index}>
                   <div className="card campaigns mb-3 shadow-sm fixed-height-card">
@@ -38,7 +36,8 @@ function Health({newDate}) {
                       <div className="card-body">
                         <small className="btn-block mb-1">
                           <div className="text-muted">
-                            <i className="far fa-folder-open"></i> {item.category}
+                            <i className="far fa-folder-open"></i>{" "}
+                            {item.category}
                           </div>
                         </small>
                         <h5 className="card-title text-truncate">
@@ -75,7 +74,9 @@ function Health({newDate}) {
 
                           <small className="text-truncate">
                             <i className="fa fa-infinity text-success"></i>{" "}
-                            {`Deadline: ${item.daysRemaining > 0 ? item.daysRemaining:0} days`}
+                            {`Deadline: ${
+                              item.daysRemaining > 0 ? item.daysRemaining : 0
+                            } days`}
                           </small>
                         </div>
                       </div>
@@ -86,14 +87,13 @@ function Health({newDate}) {
             } else {
               <div>
                 <h3>No campaign</h3>
-              </div>
+              </div>;
             }
           })}
         </div>
       </div>
     </div>
-
-  )
+  );
 }
 
-export default Health
+export default Health;

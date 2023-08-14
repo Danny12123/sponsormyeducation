@@ -4,13 +4,13 @@ import PopularContent from "../sections/popular_page_content"
 import Footer from "../footer"
 
 
-function PopularPage({newDate}) {
+function PopularPage() {
   return (
     <div>
       
         <Navigation />
         <JumbotronBackground />
-        <PopularContent newDate={newDate}/>
+        <PopularContent />
         <Footer />
     </div>
   )

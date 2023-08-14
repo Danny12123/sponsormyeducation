@@ -13,7 +13,7 @@ import DonationPage from "./pages/donationPage";
 import EndedPage from "./pages/ended_page";
 import { useEffect, useState } from 'react';
 import { useDispatch} from "react-redux";
-import { addCampaign } from "./store/reducer";
+import {  allCampaign } from "./store/reducer";
 import { getFirestore, getDocs } from 'firebase/firestore';
 import { onSnapshot, collection, query } from "firebase/firestore";
 import { db } from "./firebase";
@@ -54,13 +54,14 @@ function App() {
           developers.push(doc.data());
         });
         setNewDate(developers);
+        
       });
     };
     deve();
   }, []);
- // console.log(newDate)
+  dispatch(allCampaign(newDate))
+ 
   return (
-    
     <Routes> 
       <Route path="/" element={<Layout> <HomePage newDate={ newDate } /></Layout>}/> 
      <Route path="/login" element={<LoginPage />}/> 
@@ -75,7 +76,7 @@ function App() {
      <Route path="/health" element={<HealthPage newDate={ newDate}/>} />
      <Route path="/business" element={<BusinessPage newDate={ newDate}/>} />
      <Route path="/ended" element={<EndedPage newDate={ newDate}/>} />
-     <Route path="/profile" element={<ProfilePage newDate={newDate} />} />
+    <Route path="/profile" element={<ProfilePage newDate={newDate} />} /> 
   
     </Routes>
   );

@@ -1,13 +1,13 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { doc,collection, addDoc,getDoc } from "firebase/firestore";
+import { doc, collection, addDoc, getDoc } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 
 import { auth } from "../firebase";
 import { db, storage } from "../firebase";
-import { useNavigate ,Link} from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
-import {useDispatch} from "react-redux"
+import { useDispatch } from "react-redux";
 import { userProfile } from "../store/reducer";
 
 function RegisterForm() {
@@ -15,10 +15,12 @@ function RegisterForm() {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
+  const [aboutMe, setAboutMe] = useState("");
+  const [location, setLocation] = useState("");
   const [error, setError] = useState(null);
   const [profileImage, setProfileImage] = useState(null);
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleFileInputChange = (event) => {
     event.preventDefault();
@@ -28,22 +30,27 @@ function RegisterForm() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    
+
     if (!fullName || !email || !password || !profileImage || !phoneNumber) {
       setError("Please fill out all required fields.");
       return; // Stop further execution
     }
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       const user = userCredential.user;
-  
+
       const storageRef = ref(storage, "images/" + profileImage.name);
       const uploadTask = uploadBytesResumable(storageRef, profileImage);
-  
+
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           console.log(`Upload is ${progress}% done`);
         },
         (error) => {
@@ -55,41 +62,44 @@ function RegisterForm() {
             fullName,
             email,
             phoneNumber,
-            id:uuidv4(),
+            aboutMe,
+            location,
+            id: uuidv4(),
             profileImageURL: downloadURL,
           };
-  
+
           // Save user data and profile image URL in Firestore
           const usersCollection = collection(db, "users");
-         const newUserRef= await addDoc(usersCollection, UserData);
-          const newUserSnapshot = await getDoc(newUserRef)
+          const newUserRef = await addDoc(usersCollection, UserData);
+          const newUserSnapshot = await getDoc(newUserRef);
 
           if (newUserSnapshot.exists()) {
             const newUserData = newUserSnapshot.data();
-            dispatch(userProfile(newUserData))
-            console.log("New user data:", newUserData);
+            dispatch(userProfile(newUserData));
+
             // Now you can use newUserData to access the saved data of the newly added user.
           } else {
-            console.log("Document does not exist!");
+            alert("Document does not exist!");
           }
-  
-          console.log("UserData sent to Firestore successfully!");
-  
+
+          alert("UserData sent to Firestore successfully!");
+
           // Optionally, reset the form fields after successful submission
           setFullName("");
           setEmail("");
           setProfileImage(null);
           setPhoneNumber("");
           setPassword("");
+          setAboutMe("")
+          setLocation("")
         }
       );
-  
+
       navigate("/login");
     } catch (error) {
       setError(error.message);
     }
   };
-  
 
   return (
     <div
@@ -97,9 +107,9 @@ function RegisterForm() {
       style={{ maxWidth: 500, marginTop: "5em", padding: "2em" }}
     >
       <div className="tab-content">
-        <h5 className="fw-normal mb-3 pb-3" style={{ letterSpacing: 1 }}>
+        <h4 className="fw-normal mb-3 pb-3 text-center text-bold" style={{ letterSpacing: 1 }}>
           Register
-        </h5>
+        </h4>
         <div
           className="tab-pane fade show active"
           id="pills-login"
@@ -143,6 +153,18 @@ function RegisterForm() {
                 onChange={(e) => setPhoneNumber(e.target.value)}
               />
             </div>
+            <div className="form-outline mb-4">
+              <label className="form-label" htmlFor="location">
+                Location
+              </label>
+              <input
+                type="text"
+                id="phoneNumber"
+                className="form-control form-control-lg"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+              />
+            </div>
 
             <div className="form-outline mb-4">
               <label className="form-label" htmlFor="password">
@@ -168,6 +190,18 @@ function RegisterForm() {
                 onChange={handleFileInputChange}
               />
             </div>
+            <div className="form-outline mb-4">
+            <label className="form-label" htmlFor="aboutMe">Tell Us A Little About Yourself</label>
+            <textarea
+             className="form-control" 
+             id="aboutMe" rows="4"
+             value={aboutMe}
+             onChange={(e) => setAboutMe(e.target.value)}
+             >
+
+             </textarea>
+            
+          </div>
 
             <div className="pt-1 mb-4">
               <button

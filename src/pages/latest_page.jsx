@@ -5,13 +5,13 @@ import Footer from '../footer'
 import New from '../reusable-components/new'
 
 
-function LatestCampaign({newDate}) {
-    console.log(newDate)
+function LatestCampaign() {
+    
   return (
     <div>
         <Navigation />
         <JumbotronBackground />
-        <New newDate={newDate}/>
+        <New />
         <Footer />
     </div>
   )
