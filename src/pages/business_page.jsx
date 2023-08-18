@@ -6,7 +6,7 @@ import Footer from "../footer"
 function BusinessPage() {
   return (
     <div>
-        <Navigation />
+        <Navigation category="business"/>
         <JumbotronBackground />
         <Business />
         <Footer />

@@ -9,10 +9,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { auth } from "../firebase/index";
 import { logoutUser } from "../store/reducer";
 
-function Navigation() {
+function Navigation({category}) {
   const user = useSelector((state) => state.Campaign.user);
-
   const userProfile = useSelector((state) => state.Campaign.userProfile);
+
+  const categoryLogos = {
+    education: "src/assets/Logo Mockup.jpg",
+    health: "src/assets/Crowdfunding 6.jpg",
+    business: "src/assets/Crowdfunding 6.jpg",
+    // Add more categories and logo URLs as needed
+  };
 
   const dispatch = useDispatch();
 
@@ -31,10 +37,10 @@ function Navigation() {
         <Container fluid>
           <Navbar.Brand href="/">
             <img
-              src="data:image/png;base64,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"
-              style={{ maxWidth: 100, maxHeight: 45 }}
-              className="align-baseline"
-              alt="Fundme | Crowdfunding Platform"
+              src={categoryLogos[category] || "src/assets/Logo Mockup.jpg"}
+              style={{ width: 50, height: 50, borderRadius: 50 }}
+              className="align-baseline "
+              alt="sponsormyeducation"
             />
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="navbarScroll" />
@@ -46,7 +52,7 @@ function Navigation() {
               <Nav.Link href="/howitworks">How it works</Nav.Link>
 
               <NavDropdown title="Explore" id="navbarScrollingDropdown">
-                <NavDropdown.Item href="/latest">Latest</NavDropdown.Item>
+                <NavDropdown.Item href="/latest" class>Latest</NavDropdown.Item>
 
                 <NavDropdown.Item href="/featured">Featured</NavDropdown.Item>
 

@@ -14,6 +14,7 @@ import { db } from "../firebase";
 import {
   collection,
   doc,
+  getDoc,
   updateDoc,
   arrayUnion,
   arrayRemove,
@@ -30,9 +31,10 @@ import {
 
 function Donation() {
   const review = useSelector((state) => state.Campaign.review);
-  const user = useSelector((state) => state.Campaign.userProfile);
+  const user = useSelector((state) => state.Campaign.user);
   const [likesCount, setLikesCount] = useState(review.likes || 0);
   const [liked, setLiked] = useState(false);
+  const percentage = (review?.donations / review?.amount) * 100;
 
   const [showShareModal, setShowShareModal] = useState(false);
 
@@ -50,7 +52,7 @@ function Donation() {
   useEffect(() => {
     // Check if the current user has already liked the campaign
     if (user) {
-      const likedByCurrentUser = review.likesBy?.includes(user.id);
+      const likedByCurrentUser = review.likesBy?.includes(user);
       setLiked(likedByCurrentUser);
     }
   }, [user, review.likesBy]);
@@ -66,14 +68,14 @@ function Donation() {
     if (liked) {
       // If the user has already liked the campaign, remove their like
       updateDoc(campaignRef, {
-        likesBy: arrayRemove(user.id),
+        likesBy: arrayRemove(user),
         likes: increment(-1),
       });
       setLikesCount((prevCount) => prevCount - 1);
     } else {
       // If the user has not liked the campaign, add their like
       updateDoc(campaignRef, {
-        likesBy: arrayUnion(user.id),
+        likesBy: arrayUnion(user),
         likes: increment(1),
       });
       setLikesCount((prevCount) => prevCount + 1);
@@ -90,27 +92,35 @@ function Donation() {
       amount: amount * 100,
       Phone: phone,
       email: email,
-      onSuccess(transaction) {
+      async onSuccess(transaction) {
+        try {
+          // Update Firestore collection after successful payment
+          const campaignDocRef = doc(db, "Campaign", review.id); // Replace 'campaigns' with your collection name
+          const campaignSnapshot = await getDoc(campaignDocRef); // You need to import getDoc function
+  
+          if (campaignSnapshot.exists()) {
+            const currentDonate = campaignSnapshot.data().donations || 0;
+            const currentNumDonations = campaignSnapshot.data().numberOfDonations || 0;
+  
+            const updatedDonate = parseFloat(currentDonate) + parseFloat(amount);
+            const updatedNumDonations = currentNumDonations + 1;
+  
+            await updateDoc(campaignDocRef, {
+              donations: updatedDonate,
+              numberOfDonations: updatedNumDonations,
+            });
+  
+            console.log('Campaign data updated successfully.');
+            const totalDonations = {updatedDonate,updatedNumDonations,}
+            console.log(totalDonations)
+          } else {
+            console.log('Campaign document does not exist.');
+          }
+        } catch (error) {
+          console.error('Error updating campaign data:', error);
+        }
         let message = `Payment Complete! Reference ${transaction.reference}`;
         //  setDoc(doc(db, "donate", donateData.id), donateData);
-        const reference = transaction.reference;
-        fetch(`https://api.paystack.co/transaction/verify/${reference}`, {
-          headers: {
-            Authorization:
-              "Bearer pk_test_2cff05b0b363519ca965a0e558e9ee767bcea1fd",
-          },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            const paidAmount = data.data.amount / 100; // Convert to original currency
-            const message = `Payment Complete! Reference ${reference}. Amount: ${paidAmount}`;
-            alert(message);
-          })
-          .catch((error) => {
-            console.error("Error fetching payment details:", error);
-            alert("An error occurred while fetching payment details.");
-          });
-
         alert(message);
       },
       onCancel() {
@@ -206,52 +216,50 @@ function Donation() {
                 <div className="panel-body">
                   {" "}
                   <div className="media none-overflow">
-                    <Link to="/profile">
-                      <div className="d-flex my-2 align-items-center pl-">
-                        <img
-                          className="rounded-circle mr-2"
-                          src={review.profile?.profileImageURL}
-                          width="60"
-                          height="60"
-                        />
+                    <div className="d-flex my-2 align-items-center pl-">
+                      <img
+                        className="rounded-circle mr-2"
+                        src={review.profile?.profileImageURL}
+                        width="60"
+                        height="60"
+                      />
 
-                        <div className="d-block px-3">
-                          by{" "}
-                          <strong className="text-dark">{review?.email}</strong>
-                          <a
-                            href="#"
-                            title="Contact the Organizer"
-                            className="text-muted"
-                            data-bs-toggle="modal"
-                            data-bs-target="#sendEmail"
-                          >
-                            <i
-                              className="fa fa-envelope px-1"
-                              style={{ fontSize: "0.90em" }}
-                            ></i>
-                          </a>
-                          <div className="d-block">
-                            <small className="media-heading text-muted btn-block margin-zero">
-                              {format(review?.date)}
-                              <span
-                                className="align-middle mx-1"
-                                style={{ fontSize: "8px" }}
-                              >
-                                |
-                              </span>
-                              {/* <i className="fa fa-map-marker-alt mr-1"></i> Jordan */}
-                            </small>
-                          </div>
+                      <div className="d-block px-3">
+                        by{" "}
+                        <strong className="text-dark">{review?.email}</strong>
+                        <a
+                          href="#"
+                          title="Contact the Organizer"
+                          className="text-muted"
+                          data-bs-toggle="modal"
+                          data-bs-target="#sendEmail"
+                        >
+                          <i
+                            className="fa fa-envelope px-1"
+                            style={{ fontSize: "0.90em" }}
+                          ></i>
+                        </a>
+                        <div className="d-block">
+                          <small className="media-heading text-muted btn-block margin-zero">
+                            {format(review?.date)}
+                            <span
+                              className="align-middle mx-1"
+                              style={{ fontSize: "8px" }}
+                            >
+                              |
+                            </span>
+                            {/* <i className="fa fa-map-marker-alt mr-1"></i> Jordan */}
+                          </small>
                         </div>
                       </div>
-                    </Link>
+                    </div>
                   </div>
                 </div>
               </div>
               <span className="progress progress-xs mb-3">
                 <span
                   className="percentage bg-success"
-                  style={{ width: "93%" }}
+                  style={{ width: `${percentage.toFixed(2)}%` }}
                   aria-valuemin="0"
                   aria-valuemax="100"
                   role="progressbar"
@@ -260,19 +268,18 @@ function Donation() {
               <small className="btn-block margin-bottom-10 text-muted d-flex justify-content-between">
                 <div>
                   <strong className="text-strong-small ">
-                    {review?.amount}
+                    ${review?.donations}
                   </strong>{" "}
-                  raised of $33,000 goal{" "}
+                  raised of ${review?.amount} goal{" "}
                 </div>
-                <strong className="text-percentage  ">3.03%</strong>
+                <strong className="text-percentage  ">{percentage}%</strong>
               </small>
               <ul className="list-inline my-4 border-top border-bottom py-3 text-center">
                 <li
                   className="list-inline-item border-right"
                   style={{ width: "31%" }}
                 >
-                  <i className="fa fa-donate align-baseline text-success"></i> 1
-                  Donation
+                  <i className="fa fa-donate align-baseline text-success"></i> {review.numberOfDonations} Donation
                 </li>
                 <li
                   className="list-inline-item border-right"

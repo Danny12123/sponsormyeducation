@@ -47,9 +47,9 @@ function ProfileDashboard() {
                             <span className="display-26 text-secondary me-2 font-weight-600">
                               Location:
                             </span>{" "}
-                            edith@mail.com
+                            {item.profile.location}
                           </li>
-                          <li className="mb-2 mb-xl-3 display-28">
+                          {/* <li className="mb-2 mb-xl-3 display-28">
                             <span className="display-26 text-secondary me-2 font-weight-600">
                               Website:
                             </span>{" "}
@@ -60,7 +60,7 @@ function ProfileDashboard() {
                               Phone:
                             </span>{" "}
                             507 - 541 - 4567
-                          </li>
+                          </li> */}
                         </ul>
                         <ul className="social-icon-style1 list-unstyled mb-0 ps-0">
                           <li>
@@ -95,18 +95,9 @@ function ProfileDashboard() {
                     About Me
                   </span>
                   <p>
-                    Edith is simply dummy text of the printing and typesetting
-                    industry. Lorem Ipsum has been the industry standard dummy
-                    text ever since the 1500s, when an unknown printer took a
-                    galley of type and scrambled it to make a type specimen
-                    book.
+                    {item.profile.aboutMe}
                   </p>
-                  <p className="mb-0">
-                    It is a long established fact that a reader will be
-                    distracted by the readable content of a page when looking at
-                    its layout. The point of using Lorem Ipsum is that it has a
-                    more-or-less normal distribution of letters, as opposed.
-                  </p>
+                 
                 </div>
               </div>
             </div>

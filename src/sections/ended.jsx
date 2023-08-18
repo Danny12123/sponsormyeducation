@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 function Ended() {
   const data = useSelector((state) => state.Campaign.data);
+  const user = useSelector((state) => state.Campaign.user);
   const dispatch = useDispatch();
 
   return (
@@ -15,14 +16,16 @@ function Ended() {
         <div className="row">
           {data.map((item, index) => {
             if (item && item?.daysRemaining <= 0) {
+              const to = user ? "/donation" : "/login"
               return (
                 <div className="col-md-4" key={index}>
                   <div className="card campaigns mb-3 shadow-sm fixed-height-card">
                     <Link
-                      to="/donation"
+                      to={to}
                       style={{ TextDecoder: "none", color: "#000" }}
                       onClick={() => {
-                        dispatch(reviewCampaign(item));
+                        
+                        user && dispatch(reviewCampaign(item));
                       }}
                     >
                       <div className="p-relative">

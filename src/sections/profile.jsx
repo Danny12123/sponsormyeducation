@@ -87,14 +87,15 @@ function Profile() {
     
   return (
     <>
-    <div className="container-fluid mt-5">
+    <div className="container-fluid mt-5 ">
       <div className="row">
         <ProfileDashboard />
         {data.map((item, index) => { 
           if (item && (item.email === user)) {
             dispatch(filteredItem(item))
+            const percentage = (item.donations / item.amount) * 100;
             return (
-                  <div className="col-4" key={index}>
+                  <div className="col-4 " key={index}>
                     <div className="card campaigns mb-3 shadow-sm fixed-height-card">
                       <div className="p-relative">
                         <img
@@ -117,22 +118,22 @@ function Profile() {
                           <div
                             className="progress-bar bg-success"
                             role="progressbar"
-                            style={{ width: "0.00%" }}
+                            style={{ width: `${percentage.toFixed(2)}%` }}
                           ></div>
                         </div>
                         <p className="card-text text-truncate">
                           {item?.description}
                         </p>
-                        {/* <div className="d-flex justify-content-between align-items-center">
-                  <strong>$0</strong>
-                  <small className="font-weight-bold">0.00%</small>
-                </div> */}
-                        {/* <small className="text-muted">raised of $5,000</small> */}
+                        <div className="d-flex justify-content-between align-items-center">
+                  <strong>₵{item.donations}</strong>
+                  <small className="font-weight-bold">{percentage}%</small>
+                </div> 
+                        <small className="text-muted">₵{item.donations} raised of ₵{item.amount}</small> 
                         <hr />
                         <div className="d-flex justify-content-between align-items-center">
                           <span className="text-truncate">
                             <img
-                              src="https://fundmescript.com/public/avatar/default.jpg"
+                              src={item.profile.profileImageURL}
                               width="25"
                               height="25"
                               className="rounded-circle avatar-campaign"

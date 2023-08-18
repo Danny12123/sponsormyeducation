@@ -9,6 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { BoostedCampaign } from "../store/reducer";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
+import { useEffect } from "react";
 
 function CampaignForm() {
   const [campaignName, setCampaignName] = useState("");
@@ -18,6 +19,7 @@ function CampaignForm() {
   const [urlImage, setUrlImage] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [image, setImage] = useState(null);
+  const [remainingDays, setRemainingDays] = useState(0);
   const navigate = useNavigate();
   const user = useSelector((state) => state.Campaign.user);
   const [category, setCategory] = useState("");
@@ -46,7 +48,23 @@ function CampaignForm() {
     return daysRemaining;
   }
 
-  const daysRemaining = calculateDaysRemaining(endDate);
+  useEffect(() => {
+    // Calculate the days remaining using the function and set it in local state
+    const calculatedDays = calculateDaysRemaining(endDate);
+    setRemainingDays(calculatedDays);
+
+    // Start countdown interval
+    const countdownInterval = setInterval(() => {
+      setRemainingDays(prevRemainingDays => prevRemainingDays - 1);
+    }, 1000 * 60 * 60 * 24); // Interval of one day in milliseconds
+
+    // Clean up the interval when the component unmounts
+    return () => {
+      clearInterval(countdownInterval);
+    };
+  }, [endDate]);
+
+  //const daysRemaining = calculateDaysRemaining(endDate);
 
   const handleCampaign = async (e) => {
     e.preventDefault();
@@ -70,9 +88,11 @@ function CampaignForm() {
           email: user,
           date: Date.now(),
           endDate: endDate,
-          daysRemaining: daysRemaining,
+          daysRemaining: remainingDays,
           likes: 0,
           likesBy: [],
+          donations:0,
+          numberOfDonations:0,
           boosted: false,
           category: category,
           profile: userProfile,

@@ -15,7 +15,10 @@ const Advertisement = () => {
     // Initialize Flickity carousel when the component mounts
     flickityRef.current = new Flickity('.custom-carousel', {
       freeScroll: true,
-      wrapAround: true
+      wrapAround: true,
+      autoPlay: 3000,
+      cellAlign: window.innerWidth <= 768 ? 'center' : 'left', 
+      contain: true,
     });
 
     // Destroy Flickity carousel when the component unmounts
@@ -31,29 +34,31 @@ const Advertisement = () => {
     </div>
     <div className="custom-carousel carousel ">
       <div className="custom-carousel-cell carousel-cell ">
-      <img src="https://i.pinimg.com/564x/de/e2/ca/dee2ca49a109ff0b6023e31fd66b0e9c.jpg" 
+    
+      <img src="src\assets\Customer.jpg" 
       className="carousel-image" 
-      alt="ama" />
+      alt="sponsor my education pictures" />
+      
       </div>
       <div className="custom-carousel-cell carousel-cell">
-      <img src="https://i.pinimg.com/564x/61/86/84/618684b6d1869ed48a0dae1e758fe751.jpg"
+      <img src="src/assets/ROBOTIC.jpg"
       className="carousel-image" 
-      alt="3" />
+      alt="sponsor my education pictures" />
       </div>
       <div className="custom-carousel-cell carousel-cell">
-      <img src="https://i.pinimg.com/564x/00/bb/70/00bb70b89b9ef3fd1ecdb724947b8749.jpg"
+      <img src="src/assets/SCHOLARSHIP.jpg"
       className="carousel-image"
-       alt="Image 1" />
+       alt="sponsor my education pictures" />
       </div>
       <div className="custom-carousel-cell carousel-cell">
-      <img src="https://i.pinimg.com/564x/67/4d/0e/674d0ef3090991c5e53688b87cf32685.jpg" 
+      <img src="src/assets/DET.jpg" 
       className="carousel-image"
-      alt="4" />
+      alt="sponsor my education pictures" />
       </div>
       <div className="custom-carousel-cell carousel-cell ">
-      <img src="https://collegevidya.com/blog/wp-content/uploads/2022/06/Best-Computer-Courses-After-12th-Arts-2022.png" 
+      <img src="src/assets/Remedial33.jpg" 
       className="carousel-image"
-      alt="5" />
+      alt="sponsor my education pictures" />
       </div>
     </div>
     </>

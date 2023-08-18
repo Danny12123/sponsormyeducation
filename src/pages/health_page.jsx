@@ -6,7 +6,7 @@ import Footer from "../footer"
 function HealthPage() {
   return (
     <div>
-        <Navigation />
+        <Navigation category="health"/>
         <JumbotronBackground />
         <Health />
         <Footer />

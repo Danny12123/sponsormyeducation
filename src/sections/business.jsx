@@ -5,6 +5,7 @@ import { reviewCampaign } from "../store/reducer";
 function Business() {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.Campaign.data);
+  const user = useSelector((state) => state.Campaign.user);
 
   const sorted = [...data];
   sorted?.sort((a, b) => b.date - a.date);
@@ -18,14 +19,16 @@ function Business() {
         <div className="row">
           {sorted.map((item, index) => {
             if (item && item?.category == "Business") {
+              const percentage = (item.donations / item.amount) * 100;
+              const to = user ? "/donation" : "/login"
               return (
                 <div className="col-md-4" key={index}>
                   <div className="card campaigns mb-3 shadow-sm fixed-height-card">
                     <Link
-                      to="/donation"
+                      to={to}
                       style={{ TextDecoder: "none", color: "#000" }}
                       onClick={() => {
-                        dispatch(reviewCampaign(item));
+                        user && dispatch(reviewCampaign(item));
                       }}
                     >
                       <div className="p-relative">
@@ -49,17 +52,17 @@ function Business() {
                           <div
                             className="progress-bar bg-success"
                             role="progressbar"
-                            style={{ width: "0.00%" }}
+                            style={{ width: `${percentage.toFixed(2)}%` }}
                           ></div>
                         </div>
                         <p className="card-text text-truncate">
                           {item?.description}
                         </p>
-                        {/* <div className="d-flex justify-content-between align-items-center">
-                    <strong>$0</strong>
-                    <small className="font-weight-bold">0.00%</small>
-                  </div> */}
-                        {/* <small className="text-muted">raised of $5,000</small> */}
+                         <div className="d-flex justify-content-between align-items-center">
+                    <strong>₵{item.donations}</strong>
+                    <small className="font-weight-bold">{percentage}%</small>
+                  </div> 
+                        <small className="text-muted">₵{item.donations} raised of ₵{item.amount}</small> 
                         <hr />
                         <div className="d-flex justify-content-between align-items-center">
                           <span className="text-truncate">

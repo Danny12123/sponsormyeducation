@@ -10,10 +10,12 @@ const persistConfig = {
 
 const initialState = {
   data: [],
+
   item: {},
   user: null,
   userProfile: {},
   review: {},
+  donation:{},
   expires: null,
   boosted: null,
 };
@@ -43,6 +45,9 @@ export const counterSlice = createSlice({
     BoostedCampaign: (state, action) => {
       state.boosted = action.payload;
     },
+    DonationCampaign:(state,action) => {
+      state.donation = action.payload;
+    },
 
     logoutUser: (state) => {
       state.user = null;
@@ -67,5 +72,6 @@ export const {
   BoostedCampaign,
   filteredCampaign,
   filteredItem,
+  DonationCampaign,
   logoutUser,
 } = counterSlice.actions;

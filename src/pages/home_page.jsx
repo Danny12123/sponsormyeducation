@@ -14,7 +14,7 @@ function HomePage() {
   return (
     <div>
       
-         <Navigation />
+         <Navigation category="education"/>
          <Carousel />
          <Advertisement />
          <FeaturedCampaign />

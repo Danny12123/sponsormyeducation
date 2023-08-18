@@ -16,7 +16,7 @@ const CarouselComponent = () => {
           src="https://images.pexels.com/photos/5940845/pexels-photo-5940845.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
           alt="happy kids"
         />
-        <div className="carousel-caption d-none d-md-block text-bold" style={{marginBottom: "10em"}}>
+        <div className="carousel-caption d-none d-md-block  text-black text-bold" style={{marginBottom: "10em"}}>
           <h1 className= {`fade-in ${isVisible ? "visible" : ""}`}>Sponser My Education</h1>
           <h3 className= {`fade-in ${isVisible ? "visible" : ""}`}>Help Make Dreams A Reality</h3>
         </div>

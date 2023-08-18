@@ -2,6 +2,7 @@ html,
 body,
 #root,
 .app {
+  background-color: #f8faeb;
   height: 100%;
   width: 100%;
   font-family: "DM Sans", sans-serif;
@@ -88,13 +89,20 @@ body,
   color: gold; /* Customize the color of the star icon */
   z-index: 1;
 }
+
+/* Override the hover color for dropdown items */
+.dropdown-menu a.nav-link:hover {
+  color: white;
+  background-color: rgb(242, 67, 13);
+}
+
 .btn.btn-primary {
   --bs-btn-color: #fff;
   --bs-btn-bg:black;
   --bs-btn-border-color:black;
   --bs-btn-hover-color: #fff;
   --bs-btn-hover-bg: rgb(242, 67, 13);
-  --bs-btn-hover-border-color: black;
+  --bs-btn-hover-border-color: rgb(242, 67, 13);
   --bs-btn-focus-shadow-rgb: 49,132,253;
   --bs-btn-active-color: #fff;
   --bs-btn-active-bg: black;
