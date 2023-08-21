@@ -4,9 +4,14 @@ import { useSelector } from "react-redux";
 const JumbotronBackground = () => {
   const user = useSelector((state) => state.Campaign.user);
   return (
-    <div className="jumbotron jumbotron-fluid " >
-      <div className="container-fluid image text-black text-center py-5 text-bold" style={{height: "20em"}}>
-        <h1 className="display-4  " style={{marginTop: "1.7em"}}>Sponser My Education Platform</h1>
+    <div className="jumbotron jumbotron-fluid ">
+      <div
+        className="container-fluid image text-white text-center py-5 text-bold"
+        style={{ height: "20em", width: "100%" }}
+      >
+        <h1 className="display-4  " style={{ marginTop: "1.7em" }}>
+          Sponser My Education Platform
+        </h1>
         <h3 className="lead">A little Help Can Make a Difference </h3>
         <p>
           {user && (

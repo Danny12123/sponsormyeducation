@@ -70,6 +70,9 @@ body,
 
 .image{
   background-image: url("https://media.istockphoto.com/id/1373670875/photo/rearview-shot-of-a-young-woman-cheering-on-graduation-day.webp?b=1&s=612x612&w=0&k=20&c=T_ui3MP92nubNN4IxeSgkkLjetQ3dxuolab2VMZRftA=");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   
 }
 
