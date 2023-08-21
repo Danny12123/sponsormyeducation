@@ -20,11 +20,14 @@ function Profile() {
   const [show, setShow] = useState(false);
   const [boostedCampaign, setBoostedCampaign] = useState(null);
 
-  const boosted = useSelector((state) => state.Campaign.boosted);
-
   const data = useSelector((state) => state.Campaign.data);
 
   const user = useSelector((state) => state.Campaign.user);
+
+  const boosted = useSelector((state) => state.Campaign.boosted);
+
+  const review = useSelector((state) => state.Campaign.review);
+  const userProfile = useSelector((state) => state.Campaign.userProfile);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -145,6 +148,36 @@ function Profile() {
                           } days`}
                         </small>
                       </div>
+                      <div className="row mb-3">
+                        <div className="col-md-6">
+                          <div className="row">
+                            <div className="col-5">Amount:</div>
+                            <div className="col-7">5000</div>
+                          </div>
+                        </div>
+                        <div className="col-md-6">
+                          <div className="row">
+                            <div className="col-5">Phone:</div>
+                            <div className="col-7">
+                              {review.profile?.phoneNumber}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {/* <div className="row">
+                        <div className="col-6">
+                            <div className="row">
+                                <div className="col-6">key</div>
+                                <div className="col-6">value</div>
+                            </div>
+                        </div>
+                        <div className="col-6">
+                        <div className="row">
+                                <div className="col-6">key</div>
+                                <div className="col-6">value</div>
+                            </div>
+                        </div>
+                    </div> */}
                     </div>
                     <Modal
                       show={show}
