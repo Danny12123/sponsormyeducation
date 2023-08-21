@@ -15,7 +15,7 @@ function Footer() {
                     className="link-footer"
                     href=""
                   >
-                    Terms
+                    Terms 
                   </a>
                 </li>
                 <li>

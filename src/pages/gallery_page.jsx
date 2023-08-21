@@ -1,19 +1,18 @@
-import Navigation from "../navbar/Navigation"
+import Navigation from "../navbar/Navigation";
 
-import JumbotronBackground from "../sections/jumbotron"
-import Gallery from "../sections/gallery"
-import Footer from "../footer"
-
+import JumbotronBackground from "../sections/jumbotron";
+import Gallery from "../sections/gallery";
+import Footer from "../footer";
 
 function GalleryPage() {
   return (
     <div>
-        <Navigation />
-        <JumbotronBackground />
-        <Gallery/>
-        <Footer />
+      <Navigation />
+      <JumbotronBackground />
+      <Gallery />
+      <Footer />
     </div>
-  )
+  );
 }
 
-export default GalleryPage
+export default GalleryPage;
