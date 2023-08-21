@@ -14,7 +14,6 @@ import { useEffect } from "react";
 
 
 function Profile({ newDate }) {
-  //console.log(newDate)
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [amount, setAmount] = useState("");
@@ -22,7 +21,6 @@ function Profile({ newDate }) {
   const [boostedCampaign, setBoostedCampaign] = useState(null);
 
   const boosted = useSelector((state) => state.Campaign.boosted);
-  //console.log(boosted)
   const review = useSelector((state) => state.Campaign.review);
   const userProfile = useSelector((state) => state.Campaign.userProfile);
   const handleClose = () => setShow(false);
@@ -158,7 +156,6 @@ function Profile({ newDate }) {
       <div className="row">
         <div className="col-12">
           <div className="row">
-            {/* <div className=""></div> */}
             <div className="btn-block text-center mb-5">
               <h1>{review.profile?.fullName} campaigns</h1>
             </div>
