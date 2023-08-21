@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { reviewCampaign } from "../store/reducer";
+import { filteredItem,  } from "../store/reducer";
 import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
@@ -11,72 +11,95 @@ import "firebase/firestore";
 import { db } from "../firebase";
 import { doc, updateDoc } from "firebase/firestore";
 import { useEffect } from "react";
+import ProfileDashboard from "./profileDashboard";
 
 
+<<<<<<< HEAD
 function Profile({ newDate }) {
   const [email, setEmail] = useState("");
+=======
+function Profile() {
+    const [email, setEmail] = useState("");
+
   const [phone, setPhone] = useState("");
   const [amount, setAmount] = useState("");
   const [show, setShow] = useState(false);
   const [boostedCampaign, setBoostedCampaign] = useState(null);
 
   const boosted = useSelector((state) => state.Campaign.boosted);
+<<<<<<< HEAD
   const review = useSelector((state) => state.Campaign.review);
   const userProfile = useSelector((state) => state.Campaign.userProfile);
+=======
+
+  const data = useSelector((state) => state.Campaign.data);
+  
+
+  const user = useSelector((state) => state.Campaign.user);
+  
+ 
+
+>>>>>>> 9995058d9b2fc22acf015c2393def4ae51b8ccf2
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const filterCampaign = newDate.find((item) => item.id == boosted);
+    const filterCampaign = data.find((item) => item.id == boosted);
     if (filterCampaign) {
       setBoostedCampaign(filterCampaign);
     }
-  }, [boosted, newDate]);
-  
+  }, [boosted, data]);
+
+ 
 
 
-  const handlePay = async (event) => {
-    event.preventDefault();
-    const paystack = new PaystackPop();
-    paystack.newTransaction({
-      // key: "pk_live_e286893e885cd92c8d302bd811d9e23e6ef14642",
-      key: "pk_test_2cff05b0b363519ca965a0e558e9ee767bcea1fd",
-      amount: amount * 100,
-      Phone: phone,
-      email: email,
-      async onSuccess(transaction) {
-        let message = `Payment Complete! Reference ${transaction.reference}`;
-        //  setDoc(doc(db, "donate", donateData.id), donateData);
-      
-        if (boostedCampaign) {
-          try {
-            await updateDoc(doc(db, "Campaign", boostedCampaign.id), {
-              boosted: true,
-            });
-      
-            alert("Campaign successfully boosted!");
-          } catch (error) {
-            console.error("Error updating document: ", error);
-            alert("An error occurred while boosting the campaign.");
-          }
-        } else {
-          console.error("Boosted campaign not found!");
-        }
-        alert(message);
-      },
-      onCancel() {
-        alert("You have Canceled the transaction");
-      },
-    });
 
-    setAmount("");
-    setPhone("");
-    setEmail("");
-  };
+
+    const handlePay = async (event) => {
+        event.preventDefault();
+        const paystack = new PaystackPop();
+        paystack.newTransaction({
+          // key: "pk_live_e286893e885cd92c8d302bd811d9e23e6ef14642",
+          key: "pk_test_2cff05b0b363519ca965a0e558e9ee767bcea1fd",
+          amount: amount * 100,
+          Phone: phone,
+          email: email,
+          async onSuccess(transaction) {
+            let message = `Payment Complete! Reference ${transaction.reference}`;
+            //  setDoc(doc(db, "donate", donateData.id), donateData);
+    
+            if (boostedCampaign) {
+              try {
+                await updateDoc(doc(db, "Campaign", boostedCampaign.id), {
+                  boosted: true,
+                });
+    
+                alert("Campaign successfully boosted!");
+              } catch (error) {
+                console.error("Error updating document: ", error);
+                alert("An error occurred while boosting the campaign.");
+              }
+            } else {
+              console.error("Boosted campaign not found!");
+            }
+            alert(message);
+          },
+          onCancel() {
+            alert("You have Canceled the transaction");
+          },
+        });
+    
+        setAmount("");
+        setPhone("");
+        setEmail("");
+      }
+    
   return (
-    <div className="container-fluid mt-5">
+    <>
+    <div className="container-fluid mt-5 ">
       <div className="row">
+<<<<<<< HEAD
         <div className="col-md-4">
           <img className="img-fluid" src={review.profile?.profileImageURL} />
         </div>
@@ -163,6 +186,15 @@ function Profile({ newDate }) {
               if (item && item.profile?.id === review.profile.id) {
                 return (
                   <div className="col-md-4" key={index}>
+=======
+        <ProfileDashboard />
+        {data.map((item, index) => { 
+          if (item && (item.email === user)) {
+            dispatch(filteredItem(item))
+            const percentage = (item.donations / item.amount) * 100;
+            return (
+                  <div className="col-4 " key={index}>
+>>>>>>> 9995058d9b2fc22acf015c2393def4ae51b8ccf2
                     <div className="card campaigns mb-3 shadow-sm fixed-height-card">
                       <div className="p-relative">
                         <img
@@ -185,22 +217,22 @@ function Profile({ newDate }) {
                           <div
                             className="progress-bar bg-success"
                             role="progressbar"
-                            style={{ width: "0.00%" }}
+                            style={{ width: `${percentage.toFixed(2)}%` }}
                           ></div>
                         </div>
                         <p className="card-text text-truncate">
                           {item?.description}
                         </p>
-                        {/* <div className="d-flex justify-content-between align-items-center">
-                    <strong>$0</strong>
-                    <small className="font-weight-bold">0.00%</small>
-                  </div> */}
-                        {/* <small className="text-muted">raised of $5,000</small> */}
+                        <div className="d-flex justify-content-between align-items-center">
+                  <strong>₵{item.donations}</strong>
+                  <small className="font-weight-bold">{percentage}%</small>
+                </div> 
+                        <small className="text-muted">₵{item.donations} raised of ₵{item.amount}</small> 
                         <hr />
                         <div className="d-flex justify-content-between align-items-center">
                           <span className="text-truncate">
                             <img
-                              src="https://fundmescript.com/public/avatar/default.jpg"
+                              src={item.profile.profileImageURL}
                               width="25"
                               height="25"
                               className="rounded-circle avatar-campaign"
@@ -286,18 +318,19 @@ function Profile({ newDate }) {
                       </div>
                     </div>
                   </div>
-                );
-              } else {
-                <div>
-                  <h3>No campaign</h3>
-                </div>;
-              }
-            })}
-          </div>
-        </div>
+              
+            
+            );
+          } else {
+            <div>
+              <h3>No campaign</h3>
+            </div>;
+          }
+        })}
       </div>
     </div>
-  );
+  </>
+  )
 }
 
-export default Profile;
+export default Profile

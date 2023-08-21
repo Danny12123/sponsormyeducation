@@ -1,23 +1,24 @@
  //import Navbar from "../navbar"
  import Navigation from "../navbar/Navigation"
  import Carousel from "../navbar/carousel"
- //import SectionHead from "../reusable-components/section_head";
- //import OwlCarousel from "../sections/owl_carousel";
+
+ 
  import FeaturedCampaign from "../sections/featured_campaign";
  import NewCampaign from "../sections/new_campaign";
  import GreenBanner from "../sections/green_banner";
  import JumbotronBackground from "../sections/jumbotron";
  import Footer from "../footer";
+import Advertisement from "../sections/owl_carousel";
 
-function HomePage({ newDate }) {
+function HomePage() {
   return (
     <div>
-         {/* <Navbar /> */}
-         <Navigation />
+      
+         <Navigation category="education"/>
          <Carousel />
-         {/* <OwlCarousel /> */}
+         <Advertisement />
          <FeaturedCampaign />
-      <NewCampaign newDate={ newDate } />
+         <NewCampaign  />
          <GreenBanner />
          <JumbotronBackground />
          <Footer /> 

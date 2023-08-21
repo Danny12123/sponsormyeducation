@@ -5,13 +5,12 @@ import Footer from '../footer'
 import Featured from '../sections/featured_campaign'
 
 
-function FeaturedPage({newDate}) {
-  console.log(newDate)
+function FeaturedPage() {
   return (
     <div>
         <Navigation/>
         <JumbotronBackground />
-        <Featured newDate={newDate}/>
+        <Featured />
         <Footer />
     </div>
   )

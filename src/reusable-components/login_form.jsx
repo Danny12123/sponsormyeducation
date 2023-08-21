@@ -1,6 +1,6 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
-import {Link}  from "react-router-dom"
+import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../store/reducer";
 import { useState } from "react";
@@ -14,35 +14,22 @@ function LoginForm() {
   const navigate = useNavigate();
 
   const handleSignIn = (e) => {
-
     e.preventDefault();
 
-    if ( !email || !password ) {
+    if (!email || !password) {
       setError("Please fill out all required fields.");
       return; // Stop further execution
     }
 
     signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const firebaseUser = userCredential.user;
-      dispatch(setUser(firebaseUser.email));
-      navigate("/");
-    })
-    .catch((error) => {
-      setError(error.message);
-    });
-    // try {
-    //   signInWithEmailAndPassword(auth, email, password).then(
-    //     (userCredential) => {
-    //       const firebaseUser = userCredential.user;
-    //       dispatch(setUser(firebaseUser.email));
-    //       navigate("/")
-    //     }
-    //   );
-    // } catch (error) {
-    //   console.log(error)
-    //   setError(error.message);
-    // }
+      .then((userCredential) => {
+        const firebaseUser = userCredential.user;
+        dispatch(setUser(firebaseUser.email));
+        navigate("/");
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
   };
 
   return (
@@ -51,9 +38,9 @@ function LoginForm() {
       style={{ maxWidth: 500, marginTop: "5em", padding: "2em" }}
     >
       <div className="tab-content">
-        <h5 className="fw-normal mb-3 pb-3" style={{ letterSpacing: 1 }}>
-          Sign into your account
-        </h5>
+        <h4 className="fw-normal mb-3 pb-3 text-center text-bold" style={{ letterSpacing: 1 }}>
+          Sign Into Your Account
+        </h4>
         <div
           className="tab-pane fade show active"
           id="pills-login"

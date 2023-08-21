@@ -4,12 +4,12 @@ import Ended from "../sections/ended"
 import Footer from "../footer"
 
 
-function EndedPage({newDate}) {
+function EndedPage() {
   return (
     <div>
         <Navigation />
         <JumbotronBackground />
-        <Ended newDate={newDate}/>
+        <Ended />
         <Footer />
     </div>
   )

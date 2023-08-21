@@ -3,43 +3,38 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { reviewCampaign } from "../store/reducer";
 import { ExpiredCampaign } from "../store/reducer";
-import { useState } from "react";
 
-const NewCampaign = ({ newDate }) => {
-  
+const NewCampaign = () => {
   const dispatch = useDispatch();
-  //console.log(likes);
-  // const review = useSelector((state) => state.Campaign.review);
 
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const itemsPerPage = 9; 
+  const data = useSelector((state) => state.Campaign.data);
+  const user = useSelector((state) => state.Campaign.user);
 
-  // const indexOfLastItem = currentPage * itemsPerPage;
-  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  // const currentItems = newDate.slice(indexOfFirstItem, indexOfLastItem);
-  // console.log(currentItems)
-
- 
-  newDate.sort((a, b) => b.date - a.date);
+  const sorted = [...data];
+  sorted?.sort((a, b) => b.date - a.date);
   return (
     <div className="section py-5">
       <div className="btn-block text-center mb-5">
-        <h1>Education Campaigns</h1>
-        {/* <p>Recent Campaigns</p> */}
+        <h1>Educational Campaigns</h1>
       </div>
       <div className="container">
         <div className="row">
           {/* <div className=""></div> */}
-          {newDate.map((item, index) => {
+          {sorted?.map((item, index) => {
             if (item && item?.category == "Education") {
+              const percentage = (item.donations / item.amount) * 100;
+              const to = user ? "/donation" : "/login";
               return (
                 <div className="col-md-4" key={index}>
                   <div className="card campaigns mb-3 shadow-sm fixed-height-card">
                     <Link
-                      to="/donation"
+                      to={to}
                       style={{ TextDecoder: "none", color: "#000" }}
                       onClick={() => {
-                        dispatch(reviewCampaign(item));
+                        if(user){
+                          dispatch(reviewCampaign(item));
+                        }
+                       
                       }}
                     >
                       <div className="p-relative">
@@ -63,17 +58,17 @@ const NewCampaign = ({ newDate }) => {
                           <div
                             className="progress-bar bg-success"
                             role="progressbar"
-                            style={{ width: "0.00%" }}
+                            style={{ width: `${percentage.toFixed(2)}%` }}
                           ></div>
                         </div>
                         <p className="card-text text-truncate">
                           {item?.description}
                         </p>
-                        {/* <div className="d-flex justify-content-between align-items-center">
-                      <strong>$0</strong>
-                      <small className="font-weight-bold">0.00%</small>
-                    </div> */}
-                        {/* <small className="text-muted">raised of $5,000</small> */}
+                         <div className="d-flex justify-content-between align-items-center">
+                      <strong>₵{item.donations}</strong>
+                      <small className="font-weight-bold">{percentage}%</small>
+                    </div> 
+                         <small className="text-muted"> ₵{item.donations} raised of ₵{item.amount}</small> 
                         <hr />
                         <div className="d-flex justify-content-between align-items-center">
                           <span className="text-truncate">
@@ -90,7 +85,9 @@ const NewCampaign = ({ newDate }) => {
 
                           <small className="text-truncate">
                             <i className="fa fa-infinity text-success"></i>{" "}
-                            {`Deadline: ${item.daysRemaining > 0 ? item.daysRemaining:0} days`}
+                            {`Deadline: ${
+                              item.daysRemaining > 0 ? item.daysRemaining : 0
+                            } days`}
                           </small>
                         </div>
                       </div>
@@ -106,17 +103,6 @@ const NewCampaign = ({ newDate }) => {
           })}
         </div>
       </div>
-      {/* <div className="btn-block text-center py-3">
-        <a 
-        href="" 
-        className="btn btn-primary btn-main p-2 px-5 btn-lg rounded"
-        onClick={() => setCurrentPage(currentPage + 1)}>
-          View all{" "}
-          <small className="pl-1">
-            <i className="fa fa-long-arrow-alt-right"></i>
-          </small>
-        </a>
-      </div> */}
     </div>
   );
 };

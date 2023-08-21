@@ -196,9 +196,13 @@ function Footer() {
               </ul>
             </div>
 
-            <div className="col-md-3">
+            <div className="col-md-3 mb-5">
               <Link to="/">
-                <img src="https://fundmescript.com/public/img/watermark.png" />
+                <img 
+                style={{ maxWidth:"10em", maxHeight: 45, borderRadius:10 }}
+                src="src\assets\Logo Mockup.jpg" 
+                className="align-baseline "
+                />
               </Link>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
@@ -227,7 +231,7 @@ function Footer() {
         <div className="container">
           <div className="row">
             <div className="col-md-6 copyright">
-              © 2023 Fundme | Crowdfunding Platform
+              © sponsormyeducation.org
             </div>
             <div className="col-md-6 text-right social-links">
               <span className="mr-2">Follow us on</span>

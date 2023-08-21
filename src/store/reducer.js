@@ -10,22 +10,28 @@ const persistConfig = {
 
 const initialState = {
   data: [],
+
+  item: {},
   user: null,
-  userProfile:{},
+  userProfile: {},
   review: {},
+  donation:{},
   expires: null,
-  boosted:null
+  boosted: null,
 };
 
 export const counterSlice = createSlice({
   name: "Campaign",
   initialState,
   reducers: {
-    // addCampaign: (state, action) => {
-    //   state.data.push(action.payload);
-    // },
+    allCampaign: (state, action) => {
+      state.data = action.payload;
+    },
     setUser: (state, action) => {
       state.user = action.payload;
+    },
+    filteredItem: (state, action) => {
+      state.item = action.payload;
     },
     reviewCampaign: (state, action) => {
       state.review = action.payload;
@@ -39,22 +45,15 @@ export const counterSlice = createSlice({
     BoostedCampaign: (state, action) => {
       state.boosted = action.payload;
     },
-    // toggleLike: (state) => {
-    //   state.liked = !state.liked; // Toggle the liked state first
-    //   if (state.liked) {
-    //     state.likes++;
-    //     // Increment the likes count if liked is true
-    //   } else {
-    //     // Decrease the likes count only if it's greater than zero
-    //     if (state.likes > 0) {
-    //       state.likes--;
-    //     }
-    //   }
-    //   },
+    DonationCampaign:(state,action) => {
+      state.donation = action.payload;
+    },
+
     logoutUser: (state) => {
       state.user = null;
     },
-}});
+  },
+});
 
 const rootReducer = combineReducers({
   Campaign: counterSlice.reducer,
@@ -64,12 +63,15 @@ const rootReducer = combineReducers({
 export const persistedReducer = persistReducer(persistConfig, rootReducer);
 //export default rootReducer;
 export const {
-  addCampaign,
+  allCampaign,
   setUser,
   userProfile,
   reviewCampaign,
   ExpiredCampaign,
   toggleLike,
   BoostedCampaign,
+  filteredCampaign,
+  filteredItem,
+  DonationCampaign,
   logoutUser,
 } = counterSlice.actions;

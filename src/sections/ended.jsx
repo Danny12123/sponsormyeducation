@@ -1,39 +1,31 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { reviewCampaign } from "../store/reducer";
 import { Link } from "react-router-dom";
 
+function Ended() {
+  const data = useSelector((state) => state.Campaign.data);
+  const user = useSelector((state) => state.Campaign.user);
+  const dispatch = useDispatch();
 
-
-
-
-
-function Ended({newDate}) {
-    const dispatch = useDispatch()
-
-
-    
   return (
     <div className="section py-5">
       <div className="btn-block text-center mb-5">
         <h1>Ended Campaigns</h1>
-        {/* <p>Recent Campaigns</p> */}
       </div>
       <div className="container">
         <div className="row">
-          {/* <div className=""></div> */}
-          
-          {newDate.map((item, index) => {
-            console.log(item.daysRemaining)
-
-            if (item && (item?.daysRemaining <= 0)) {
+          {data.map((item, index) => {
+            if (item && item?.daysRemaining <= 0) {
+              const to = user ? "/donation" : "/login"
               return (
                 <div className="col-md-4" key={index}>
                   <div className="card campaigns mb-3 shadow-sm fixed-height-card">
                     <Link
-                      to="/donation"
+                      to={to}
                       style={{ TextDecoder: "none", color: "#000" }}
                       onClick={() => {
-                        dispatch(reviewCampaign(item));
+                        
+                        user && dispatch(reviewCampaign(item));
                       }}
                     >
                       <div className="p-relative">
@@ -46,7 +38,8 @@ function Ended({newDate}) {
                       <div className="card-body">
                         <small className="btn-block mb-1">
                           <div className="text-muted">
-                            <i className="far fa-folder-open"></i> {item.category}
+                            <i className="far fa-folder-open"></i>{" "}
+                            {item.category}
                           </div>
                         </small>
                         <h5 className="card-title text-truncate">
@@ -83,7 +76,9 @@ function Ended({newDate}) {
 
                           <small className="text-truncate">
                             <i className="fa fa-infinity text-success"></i>{" "}
-                            {`Deadline: ${item.daysRemaining > 0 ? item.daysRemaining:0} days`}
+                            {`Deadline: ${
+                              item.daysRemaining > 0 ? item.daysRemaining : 0
+                            } days`}
                           </small>
                         </div>
                       </div>
@@ -94,13 +89,13 @@ function Ended({newDate}) {
             } else {
               <div>
                 <h3>No campaign</h3>
-              </div>
+              </div>;
             }
           })}
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Ended
+export default Ended;

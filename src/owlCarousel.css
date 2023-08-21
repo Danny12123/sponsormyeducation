@@ -1,0 +1,65 @@
+/* flickity-custom.css */
+
+/* Reset box-sizing */
+* {
+  box-sizing: border-box;
+}
+
+/* Set font family for the entire body */
+body {
+  font-family: sans-serif;
+}
+
+/* Styling for the carousel container */
+.custom-carousel {
+  height: 800px;
+  margin-top: 4em;
+  background: #FAFAFA;
+}
+
+/* Styling for the carousel cells */
+.custom-carousel-cell {
+  width: 30%;
+  height: 500px;
+  margin-right: 15px;
+  background: #8C8;
+  border-radius: 15px;
+  border: 2px solid white;
+  counter-increment: carousel-cell;
+}
+
+/* Styling for cell number */
+.custom-carousel-cell:before {
+  display: block;
+  border-radius: 15px;
+  text-align: center;
+  content: counter(carousel-cell);
+  line-height: 0px;
+  font-size: 80px;
+  color: white
+}
+
+
+
+.carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Maintain aspect ratio and fill the container */
+  object-position: center; /* Adjust as needed */
+}
+
+@media (max-width: 768px) {
+  .custom-carousel-cell {
+    margin-right: 0; /* Remove margin between cells for mobile */
+    width: 100%
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Maintain aspect ratio and fill the container */
+  object-position: center;
+  }
+}

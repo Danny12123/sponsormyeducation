@@ -2,15 +2,16 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { reviewCampaign } from "../store/reducer";
+
 import { useState } from "react";
 
-function New({newDate}) {
-  const dispatch = useDispatch()
-  
+function New() {
+  const dispatch = useDispatch();
 
-
-  const expiryDays = useSelector((state) => state.Campaign.expires)
-  newDate.sort((a, b) => b.date - a.date);
+  const data = useSelector((state) => state.Campaign.data);
+  const user = useSelector((state) => state.Campaign.user);
+  const sorted = [...data];
+  sorted.sort((a, b) => b.date - a.date);
   return (
     <div className="section py-5">
       <div className="btn-block text-center mb-5">
@@ -19,17 +20,18 @@ function New({newDate}) {
       </div>
       <div className="container">
         <div className="row">
-          {/* <div className=""></div> */}
-          {newDate.map((item, index) => {
+          {sorted.map((item, index) => {
             if (item) {
+              const percentage = (item.donations / item.amount) * 100;
+              const to = user ? "/donation" : "/login";
               return (
                 <div className="col-md-4" key={index}>
                   <div className="card campaigns mb-3 shadow-sm fixed-height-card">
                     <Link
-                      to="/donation"
+                      to={to}
                       style={{ TextDecoder: "none", color: "#000" }}
                       onClick={() => {
-                        dispatch(reviewCampaign(item));
+                        user && dispatch(reviewCampaign(item));
                       }}
                     >
                       <div className="p-relative">
@@ -42,7 +44,8 @@ function New({newDate}) {
                       <div className="card-body">
                         <small className="btn-block mb-1">
                           <div className="text-muted">
-                            <i className="far fa-folder-open"></i> {item.category}
+                            <i className="far fa-folder-open"></i>{" "}
+                            {item.category}
                           </div>
                         </small>
                         <h5 className="card-title text-truncate">
@@ -52,17 +55,17 @@ function New({newDate}) {
                           <div
                             className="progress-bar bg-success"
                             role="progressbar"
-                            style={{ width: "0.00%" }}
+                            style={{ width: `${percentage.toFixed(2)}%` }}
                           ></div>
                         </div>
                         <p className="card-text text-truncate">
                           {item?.description}
                         </p>
-                        {/* <div className="d-flex justify-content-between align-items-center">
-                    <strong>$0</strong>
-                    <small className="font-weight-bold">0.00%</small>
-                  </div> */}
-                        {/* <small className="text-muted">raised of $5,000</small> */}
+                         <div className="d-flex justify-content-between align-items-center">
+                    <strong>{item?.donations}</strong>
+                    <small className="font-weight-bold">{percentage}%</small>
+                  </div> 
+                         <small className="text-muted">${item.donations} raised of ${item.amount}</small> 
                         <hr />
                         <div className="d-flex justify-content-between align-items-center">
                           <span className="text-truncate">
@@ -79,7 +82,9 @@ function New({newDate}) {
 
                           <small className="text-truncate">
                             <i className="fa fa-infinity text-success"></i>{" "}
-                            {`Deadline: ${item.daysRemaining > 0 ? item.daysRemaining:0} days`}
+                            {`Deadline: ${
+                              item.daysRemaining > 0 ? item.daysRemaining : 0
+                            } days`}
                           </small>
                         </div>
                       </div>
@@ -90,7 +95,7 @@ function New({newDate}) {
             } else {
               <div>
                 <h3>No campaign</h3>
-              </div>
+              </div>;
             }
           })}
         </div>
