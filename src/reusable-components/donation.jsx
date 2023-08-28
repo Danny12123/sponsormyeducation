@@ -87,8 +87,7 @@ function Donation() {
     event.preventDefault();
     const paystack = new PaystackPop();
     paystack.newTransaction({
-      // key: "pk_live_e286893e885cd92c8d302bd811d9e23e6ef14642",
-      key: "pk_test_2cff05b0b363519ca965a0e558e9ee767bcea1fd",
+      key: "pk_live_e286893e885cd92c8d302bd811d9e23e6ef14642",
       amount: amount * 100,
       Phone: phone,
       email: email,
